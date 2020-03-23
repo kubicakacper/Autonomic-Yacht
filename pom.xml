@@ -4,9 +4,56 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.6.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
     <groupId>pl.kacperkubica</groupId>
     <artifactId>masterThesis</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.12</version>
+        </dependency>
+    </dependencies>
+
+
+    <!--    <properties>
+            <java.version>13</java.version>
+
+            <spotbugs-maven-plugin.version>3.1.12</spotbugs-maven-plugin.version>
+            <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
+            <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
+
+            <assertj-core.version>3.12.2</assertj-core.version>
+            <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
+        </properties>-->
 
 </project>
+
+        <!--
+
+        <groupId>pl.jcommerce</groupId>
+        <artifactId>jrental</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <name>jrental</name>
+        <description>Demo project for Spring Boot</description>
+
+        <properties>
+            <java.version>11</java.version>
+
+            <spotbugs-maven-plugin.version>3.1.12</spotbugs-maven-plugin.version>
+            <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
+            <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
+
+            <assertj-core.version>3.12.2</assertj-core.version>
+            <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
+        </properties>
+
+        <dependencies>-->
