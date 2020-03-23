@@ -23,11 +23,10 @@ public class WindIndicator {
             >>wind from starboard: (+0 - +180)
             >>wind from port: (-0 - -180) degrees
          */
-    Wind process(double windSpeedAtWaterLevel, double windDirection,
-                 double yachtSpeed, double yachtDirection, double height) {
+    public Wind process(double windSpeedAtWaterLevel, double windDirection,
+                        double yachtSpeed, double yachtDirection, double height) {
         double windSpeed = windSpeedAtWaterLevel * Simulation.windGradient(height);
-        double inducedWindDirection = yachtDirection;
-        double angleBetweenVectorsInDegrees = abs(windDirection - inducedWindDirection);
+        double angleBetweenVectorsInDegrees = abs(windDirection - yachtDirection);    // yachtDirection == inducedWindDirection
         double apparentWindSpeed = sqrt(pow(windSpeed, 2) + pow(yachtSpeed, 2) + 2 * windSpeed * yachtSpeed * cos(toRadians(angleBetweenVectorsInDegrees)));
         double apparentWindDirectionCountingFromBow = toDegrees(atan2(windSpeed * sin(toRadians(angleBetweenVectorsInDegrees)),
                 yachtSpeed + windSpeed * cos(toRadians(angleBetweenVectorsInDegrees))));

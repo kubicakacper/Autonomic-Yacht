@@ -1,11 +1,14 @@
 package simulation;
 
+import lombok.ToString;
+
 import static java.lang.Math.log;
 
+@ToString
 public class Simulation {
-    static final double samplingPeriod = 0.1;       //in seconds
-    static final double waterDensity = 1026;        //kg/m^3
-    static final double airDensity = 1.225;         //kg/m^3
+    public static final double samplingPeriod = 0.1;       //in seconds
+    public static final double waterDensity = 1026;        //kg/m^3
+    public static final double airDensity = 1.225;         //kg/m^3
 
     Wind wind;
 
