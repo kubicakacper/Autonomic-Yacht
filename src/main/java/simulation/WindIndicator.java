@@ -23,9 +23,6 @@ public class WindIndicator {
             >>wind from starboard: (+0 - +180)
             >>wind from port: (-0 - -180) degrees
          */
-    //DONE check what happens when Wind is negative:
-    // --> should use abs in order to have only positive windSpeed
-    // --> and wind Direction should be +180 degrees then
     public Wind measureWind(Wind wind, Yacht yacht, double height) {
         double windSpeed = wind.getSpeed() * Simulation.windGradient(height);
         double angleBetweenVectorsInDegrees = abs(wind.getDirection() - yacht.getCourseAzimuth());    // yachtDirection == inducedWindDirection

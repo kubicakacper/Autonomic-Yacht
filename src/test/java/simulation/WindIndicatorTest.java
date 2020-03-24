@@ -58,5 +58,4 @@ public class WindIndicatorTest {
         apparentWind.setDirection(Math.round(apparentWind.getDirection()));
         assertTrue(apparentWind.getDirection() == 0 || apparentWind.getDirection() == 180);
     }
-
 }
