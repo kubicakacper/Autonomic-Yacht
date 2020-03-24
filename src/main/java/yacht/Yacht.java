@@ -2,6 +2,7 @@ package yacht;
 
 import lombok.*;
 import simulation.Simulation;
+import simulation.Wind;
 import simulation.WindIndicator;
 import yacht.rudder.RudderController;
 import yacht.rudder.RudderEngine;
@@ -21,12 +22,13 @@ import java.util.OptionalDouble;
 import static java.lang.Math.*;
 
 @Data
+@NoArgsConstructor
 public class Yacht {
 
-    private final double mass;  //e.g. 100
-    private final double momentOfInertia;   //e.g. 400
-    private final double distanceRudderFromCenterOfRotation;
-    private final double closestCourseAgainstWind = 37;     // concerns TRUE wind
+    private final double mass = 100;                                //in kg
+    private final double momentOfInertia = 400;                     //in basic SI unit
+    private final double distanceRudderFromCenterOfRotation = 2;    //in meters
+    private final double closestCourseAgainstWind = 37;             // concerns TRUE wind
     Sail sail;
     Rudder rudder;
     private double requiredCourseAzimuth;
@@ -40,8 +42,7 @@ public class Yacht {
     private WindIndicator windIndicatorAtFoot;
     private WindIndicator windIndicatorAtHead;
 
-    public Yacht(double mass, double momentOfInertia, double distanceRudderFromCenterOfRotation,
-                 double sailArea, double sailFootHeight, double sailHeadHeight, StatesOfSail stateOfSail,
+    public Yacht(double sailArea, double sailFootHeight, double sailHeadHeight, StatesOfSail stateOfSail,
                  double sailControllerProportionalCoefficientForTrim, double sailControllerProportionalCoefficientForTwist,
                  double carEngineControllerHysteresis, double carEngineControllerOffset,
                  double carEngineMaxVelocity,
@@ -54,9 +55,9 @@ public class Yacht {
                  double rudderEngineControllerHysteresis, double rudderEngineControllerOffset,
                  double rudderEngineMaxVelocity) {
 
-        this.mass = mass;
+/*        this.mass = mass;
         this.momentOfInertia = momentOfInertia;
-        this.distanceRudderFromCenterOfRotation = distanceRudderFromCenterOfRotation;
+        this.distanceRudderFromCenterOfRotation = distanceRudderFromCenterOfRotation;*/
 
         windIndicatorAtFoot = new WindIndicator();
         windIndicatorAtHead = new WindIndicator();
@@ -116,7 +117,7 @@ public class Yacht {
         this.courseAgainstWind = abs(apparentWindDirection);
     }
 
-    public void process(double sideForce, double thrustForce, double windSpeed, double windDirection) {
+    public void process(double sideForce, double thrustForce, Wind wind) {
         setAcceleration(thrustForce / mass);
         setVelocity(getVelocity() + getAcceleration() * Simulation.samplingPeriod);
         double deceleration = 100 * pow(getVelocity(), 2) / mass;
@@ -127,8 +128,8 @@ public class Yacht {
         double angleDeceleration = 5000 * pow(getAngleVelocity(), 2) / momentOfInertia;
         setAngleVelocity(getAngleVelocity() - angleDeceleration * Simulation.samplingPeriod);
 
-        windIndicatorAtFoot.process(windSpeed, windDirection, getVelocity(), getCourseAzimuth(), sail.getFootHeight());
-        windIndicatorAtHead.process(windSpeed, windDirection, getVelocity(), getCourseAzimuth(), sail.getHeadHeight());
+        windIndicatorAtFoot.measureWind(wind, this, sail.getFootHeight());
+        windIndicatorAtHead.measureWind(wind, this, sail.getHeadHeight());
         setCourseAgainstWind(windIndicatorAtFoot.getDirection() * 0.75 + windIndicatorAtHead.getDirection() * 0.25);
         setSpeedAgainstWind(windIndicatorAtFoot.getSpeed() * 0.75 + windIndicatorAtHead.getSpeed() * 0.25);
     }

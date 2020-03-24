@@ -1,10 +1,12 @@
 package simulation;
 
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import static java.lang.Math.log;
 
 @ToString
+@EqualsAndHashCode
 public class Simulation {
     public static final double samplingPeriod = 0.1;       //in seconds
     public static final double waterDensity = 1026;        //kg/m^3

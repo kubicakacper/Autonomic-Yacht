@@ -15,6 +15,17 @@
     <artifactId>masterThesis</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <java.version>13</java.version>
+
+        <spotbugs-maven-plugin.version>3.1.12</spotbugs-maven-plugin.version>
+        <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
+        <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
+
+        <assertj-core.version>3.12.2</assertj-core.version>
+        <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -35,39 +46,12 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj-core.version}</version>
+        </dependency>
     </dependencies>
 
-
-    <!--    <properties>
-            <java.version>13</java.version>
-
-            <spotbugs-maven-plugin.version>3.1.12</spotbugs-maven-plugin.version>
-            <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
-            <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
-
-            <assertj-core.version>3.12.2</assertj-core.version>
-            <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
-        </properties>-->
-
 </project>
-
-        <!--
-
-        <groupId>pl.jcommerce</groupId>
-        <artifactId>jrental</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <name>jrental</name>
-        <description>Demo project for Spring Boot</description>
-
-        <properties>
-            <java.version>11</java.version>
-
-            <spotbugs-maven-plugin.version>3.1.12</spotbugs-maven-plugin.version>
-            <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
-            <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
-
-            <assertj-core.version>3.12.2</assertj-core.version>
-            <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
-        </properties>
-
-        <dependencies>-->
