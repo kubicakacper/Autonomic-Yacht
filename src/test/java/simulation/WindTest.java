@@ -41,11 +41,10 @@ public class WindTest {
             assertEquals(wind7.getDirection() + 360, trueWind.getDirection(), 0.01);
 
         assertTrue(windRandom.getSpeed() > trueWind.getSpeed() * 1.8 && windRandom.getSpeed() < trueWind.getSpeed() * 2.0);
-        if (windRandom.getDirection() > 0) {
+        if (windRandom.getDirection() > 0)
             assertEquals(windRandom.getDirection(), trueWind.getDirection(), 0.01);
-        } else {
+        else
             assertEquals(windRandom.getDirection() + 360, trueWind.getDirection(), 0.01);
-        }
     }
 
 }
