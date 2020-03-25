@@ -12,16 +12,14 @@ import static org.junit.Assert.assertTrue;
 public class WindIndicatorTest {
 
     Wind trueWind;
-    Yacht yacht;
-    WindIndicator windIndicator;
+    Yacht yacht = new Yacht();    //in case of Builder: yacht = new Yacht.builder().velocity(10)...build()
+    WindIndicator windIndicator = new WindIndicator();
     SecureRandom random = new SecureRandom();
 
     @Before
     public void before() {
         trueWind = new Wind(random.nextDouble() * 20, random.nextInt(360));
-        yacht = new Yacht();    //in case of Builder: yacht = new Yacht.builder().velocity(10)...build()
         yacht.setVelocity(random.nextDouble() * 6);
-        windIndicator = new WindIndicator();
     }
 
     @Test

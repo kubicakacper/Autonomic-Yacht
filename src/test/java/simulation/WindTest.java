@@ -15,14 +15,12 @@ public class WindTest {
 
     Random random = new SecureRandom();
     Wind trueWind;
-    WindIndicator windIndicator;
-    Yacht yacht;
+    WindIndicator windIndicator = new WindIndicator();
+    Yacht yacht = new Yacht();
 
     @Before
     public void before() {
         trueWind = new Wind(random.nextDouble() * 20, random.nextInt(360));
-        windIndicator = new WindIndicator();
-        yacht = new Yacht();
     }
 
     @Test

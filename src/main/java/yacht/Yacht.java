@@ -17,6 +17,7 @@ import yacht.sail.sheet.SheetEngine;
 import yacht.sail.sheet.SheetEngineController;
 
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.OptionalDouble;
 
 import static java.lang.Math.*;
@@ -54,10 +55,6 @@ public class Yacht {
                  double rudderControllerProportionalCoefficient, double rudderControllerIntegralCoefficient, double rudderControllerDerivativeCoefficient,
                  double rudderEngineControllerHysteresis, double rudderEngineControllerOffset,
                  double rudderEngineMaxVelocity) {
-
-/*        this.mass = mass;
-        this.momentOfInertia = momentOfInertia;
-        this.distanceRudderFromCenterOfRotation = distanceRudderFromCenterOfRotation;*/
 
         windIndicatorAtFoot = new WindIndicator();
         windIndicatorAtHead = new WindIndicator();
@@ -286,7 +283,6 @@ public class Yacht {
                             maxThrustAngle = temp;
                         }// constant:  0.5 * Simulation.airDensity * outer.getArea() * outer.outer.getVelocity() are omitted
                     }
-                    //    System.out.println(maxThrustAngle);
                 }//SPRAWDŹ JAK WYGLĄDA WYNIK TEGO, CZY MA TO SENS, CZY ZMIANA KĄTA TRYMU BĘDZIE PŁYNNA
             }
 
@@ -294,7 +290,7 @@ public class Yacht {
             jacht otrzymuje kierunek wiatru od WindIndicator w jachtowym układzie odniesienia (-180 - +180)
             i przekazuje SailControllerowi
             */
-            private double countAverageAtFoot(double newWindDirection) {
+            private double countAverageAtFoot(double newWindDirection) throws NoSuchElementException {
                 if (!windDirectionAtFootHistory.isEmpty()) {
                     OptionalDouble averageWindDirection = windDirectionAtFootHistory.stream()
                             .mapToDouble(Double::doubleValue)
@@ -321,10 +317,10 @@ public class Yacht {
                         average += 360;
                     return average;
                 } else
-                    return 0.0;
+                    throw new NoSuchElementException("Method 'countAverageAtFoot' is unable to return a value.");
             }
 
-            private double countAverageAtHead(double newWindDirection) {
+            private double countAverageAtHead(double newWindDirection) throws NoSuchElementException {
                 if (!windDirectionAtHeadHistory.isEmpty()) {
                     OptionalDouble averageWindDirection = windDirectionAtHeadHistory.stream()
                             .mapToDouble(Double::doubleValue)
@@ -351,7 +347,7 @@ public class Yacht {
                         average += 360;
                     return average;
                 } else
-                    return 0.0;
+                    throw new NoSuchElementException("Method 'countAverageAtHead' is unable to return a value.");
             }
 
             //This function receives measured apparent wind and counts control variable, which is required sail trim
