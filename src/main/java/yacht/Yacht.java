@@ -149,6 +149,7 @@ public class Yacht {
         SheetEngine sheetEngine;
         Sheet sheet;
         private StatesOfSail currentStateOfSail;   //port / starboard
+        private StatesOfSail requiredStateOfSail;
         private double currentTrimAngle;   // in degrees    //left: "-"; right: "+".
         private double currentTwistAngle;  // in degrees
         private double currentHeadPosition; //in degrees    //trimAngle + twistAngle
@@ -193,31 +194,11 @@ public class Yacht {
 
         }
 
-        public double getArea() {
-            return area;
-        }
-
-        public double getFootHeight() {
-            return footHeight;
-        }
-
-        public double getHeadHeight() {
-            return headHeight;
-        }
-
-        public double getCurrentTrimAngle() {
-            return currentTrimAngle;
-        }
-
         void setCurrentTrimAngle(double currentTrimAngle) {
             if (abs(currentTrimAngle) <= maxTrimAngle)
                 this.currentTrimAngle = currentTrimAngle;
             else
                 System.out.println("Trim angle must be greater than " + -maxTwistAngle + " and lower than " + maxTrimAngle + " degrees!");
-        }
-
-        public double getCurrentTwistAngle() {
-            return currentTwistAngle;
         }
 
         void setCurrentTwistAngle(double currentTwistAngle) {
@@ -227,10 +208,6 @@ public class Yacht {
                 System.out.println("Trim angle plus twist angle must be lower than 90 degrees!");
             else
                 System.out.println("Twist angle must be positive and lower than " + maxTwistAngle + " degrees!");
-        }
-
-        public double getCurrentHeadPosition() {
-            return currentHeadPosition;
         }
 
         void setCurrentHeadPosition(double currentTwistAngle, double currentTrimAngle) {
@@ -352,8 +329,23 @@ public class Yacht {
 
             //This function receives measured apparent wind and counts control variable, which is required sail trim
             //It uses coefficient arrays defined by Sail outer class
+            //This function also handles tacking and gybing
             int countRequiredTrim(double newWindDirectionAtFoot) {    //function call param: Yacht.WindIndicator.process().direction
                 double newAverageWindDirection = countAverageAtFoot(newWindDirectionAtFoot);
+                if (newAverageWindDirection < -20 && newAverageWindDirection > -135) {
+                    setRequiredStateOfSail(StatesOfSail.STARBOARD);
+                    if (currentStateOfSail == StatesOfSail.PORT || currentStateOfSail == StatesOfSail.TO_PORT)
+                        setCurrentStateOfSail(StatesOfSail.TO_STARBOARD);
+                } else if (newAverageWindDirection > 20 && newAverageWindDirection < 135) {
+                    setRequiredStateOfSail(StatesOfSail.PORT);
+                    if (currentStateOfSail == StatesOfSail.STARBOARD || currentStateOfSail == StatesOfSail.TO_STARBOARD)
+                        setCurrentStateOfSail(StatesOfSail.TO_PORT);
+                }
+                if (currentStateOfSail == StatesOfSail.TO_STARBOARD && car.getCurrentPositionInDegrees() < -10)
+                    setCurrentStateOfSail(StatesOfSail.STARBOARD);
+                if (currentStateOfSail == StatesOfSail.TO_PORT && car.getCurrentPositionInDegrees() > 10)
+                    setCurrentStateOfSail(StatesOfSail.PORT);
+
                 int windDirection = (int) abs(round(newAverageWindDirection));
                 return trimAnglesForMaxThrust[windDirection];
             }
