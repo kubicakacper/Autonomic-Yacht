@@ -19,6 +19,12 @@ public class RudderEngineController {
         currentStateOfRudderEngine = StatesOfRudderEngine.STAND_BY;
     }
 
+    public RudderEngineController() {
+        hysteresis = 0.1;
+        offset = 0.25;
+        currentStateOfRudderEngine = StatesOfRudderEngine.STAND_BY;
+    }
+
     public void setHysteresis(double hysteresis) {
         if (hysteresis >= 0)
             this.hysteresis = hysteresis;

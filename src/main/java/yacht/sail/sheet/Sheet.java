@@ -15,6 +15,10 @@ public class Sheet {    //klasa należy do Sail
     private final double maxLengthOverMin = 0.2;
     private final int gearRatio;
     private double currentLengthOverMin;    // minimal length of the line (sheet) is when boom is oriented horizontally - in this position boom is at minimal level;
+
+    public Sheet() {
+        gearRatio = 4;
+    }
     // current length over min is the difference between current height and minimal height (measured above the car).
 
     public void setCurrentLengthOverMin(double newLengthOverMinInMeters) {

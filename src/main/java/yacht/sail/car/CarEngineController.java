@@ -19,6 +19,11 @@ public class CarEngineController {
         currentStateOfCarEngine = StatesOfCarEngine.STAND_BY;
     }
 
+    public CarEngineController() {
+        hysteresis = 0.1;
+        offset = 0.25;
+    }
+
     public void setHysteresis(double hysteresis) {
         if (hysteresis >= 0)
             this.hysteresis = hysteresis;

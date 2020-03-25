@@ -13,6 +13,10 @@ public class CarEngine extends Engine {     //trim  //belongs to Sail
         super(maxVelocity);
     }
 
+    public CarEngine() {
+        super(0.4);
+    }
+
     //while tacking or gybing, CarEngineController is off (see TO_PORT or TO_STARBOARD case)
     public double setCurrentVelocity(StatesOfCarEngine requiredStateOfCarEngine, StatesOfSail stateOfSail) {
         switch (stateOfSail) {

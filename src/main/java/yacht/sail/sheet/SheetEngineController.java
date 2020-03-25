@@ -19,6 +19,12 @@ public class SheetEngineController {
         currentStateOfSheetEngine = StatesOfSheetEngine.STAND_BY;
     }
 
+    public SheetEngineController() {
+        hysteresis = 0.1;
+        offset = 0.25;
+        currentStateOfSheetEngine = StatesOfSheetEngine.STAND_BY;
+    }
+
     public void setHysteresis(double hysteresis) {
         if (hysteresis >= 0)
             this.hysteresis = hysteresis;

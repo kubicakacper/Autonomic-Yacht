@@ -18,6 +18,12 @@ public class RudderController {
         this.derivativeCoefficient = derivativeCoefficient;
     }
 
+    public RudderController() {
+        proportionalCoefficient = 1;
+        integralCoefficient = 0.1;
+        derivativeCoefficient = 0.5;
+    }
+
     public double countAndReturnControlValue(double requiredCourse, double measuredCourse) {
         double error = requiredCourse - measuredCourse;
         if (error > 180)

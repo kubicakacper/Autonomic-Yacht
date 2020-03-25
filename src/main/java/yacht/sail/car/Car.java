@@ -19,6 +19,10 @@ public class Car {  //belongs to Sail
     private final double maxAnglePosition = 80.0;
     private double currentPositionInDegrees;     //left: "-"; right: "+".
 
+    public Car() {
+        distanceFromMast = 0.5;
+    }
+
     public void setCurrentPositionInDegrees(double newPositionInDegrees) {
         if (abs(newPositionInDegrees) <= maxAnglePosition)
             this.currentPositionInDegrees = newPositionInDegrees;

@@ -12,6 +12,10 @@ public class RudderEngine extends Engine {
         super(maxVelocity);
     }
 
+    public RudderEngine() {
+        super(10);
+    }
+
     public double setCurrentAngleVelocity(StatesOfRudderEngine requiredStateOfRudderEngine) { //converts engine power to force
         switch (requiredStateOfRudderEngine) {
             case LEFT:

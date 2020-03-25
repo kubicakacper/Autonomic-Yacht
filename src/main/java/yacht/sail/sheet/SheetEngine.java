@@ -12,6 +12,10 @@ public class SheetEngine extends Engine {    //twist
         super(maxVelocity);
     }
 
+    public SheetEngine() {
+        super(1);
+    }
+
     public double setCurrentVelocity(StatesOfSheetEngine requiredStateOfSheetEngine) {
         switch (requiredStateOfSheetEngine) {
             case HAUL:

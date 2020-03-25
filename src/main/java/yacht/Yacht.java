@@ -23,11 +23,10 @@ import java.util.OptionalDouble;
 import static java.lang.Math.*;
 
 @Data
-@NoArgsConstructor
 public class Yacht {
 
-    private final double mass = 100;                                //in kg
-    private final double momentOfInertia = 400;                     //in basic SI unit
+    private final double mass = 500;                                //in kg
+    private final double momentOfInertia = 2000;                     //in basic SI unit
     private final double distanceRudderFromCenterOfRotation = 2;    //in meters
     private final double closestCourseAgainstWind = 37;             // concerns TRUE wind
     Sail sail;
@@ -42,6 +41,13 @@ public class Yacht {
     private double angleAcceleration;
     private WindIndicator windIndicatorAtFoot;
     private WindIndicator windIndicatorAtHead;
+
+    public Yacht() {
+        this.sail = new Sail();
+        this.rudder = new Rudder();
+        this.windIndicatorAtFoot = new WindIndicator();
+        this.windIndicatorAtHead = new WindIndicator();
+    }
 
     public Yacht(double sailArea, double sailFootHeight, double sailHeadHeight, StatesOfSail stateOfSail,
                  double sailControllerProportionalCoefficientForTrim, double sailControllerProportionalCoefficientForTwist,
@@ -154,6 +160,21 @@ public class Yacht {
         private double currentTwistAngle;  // in degrees
         private double currentHeadPosition; //in degrees    //trimAngle + twistAngle
 
+        public Sail() {
+            area = 2;
+            footHeight = 1;
+            headHeight = 4;
+            sailController = new SailController();
+            carEngineController = new CarEngineController();
+            carEngine = new CarEngine();
+            car = new Car();
+            sheetEngineController = new SheetEngineController();
+            sheetEngine = new SheetEngine();
+            sheet = new Sheet();
+            currentStateOfSail = StatesOfSail.PORT;
+            requiredStateOfSail = StatesOfSail.PORT;
+        }
+
         public Sail(double area, double footHeight, double headHeight, StatesOfSail stateOfSail,
                     double sailControllerProportionalCoefficientForTrim, double sailControllerProportionalCoefficientForTwist,
                     double carEngineControllerHysteresis, double carEngineControllerOffset,
@@ -243,6 +264,25 @@ public class Yacht {
             private LinkedList<Double> windDirectionAtHeadHistory;
             private double averageWindDirectionAtFoot;      //reduces wind fluctuations
             private double averageWindDirectionAtHead;      //reduces wind fluctuations
+
+            public SailController() {
+                proportionalCoefficientForTrim = 1;
+                proportionalCoefficientForTwist = 1;
+                windDirectionAtFootHistory = new LinkedList<>();         //double[(int) (10/getSamplingPeriodInSeconds())];
+                windDirectionAtHeadHistory = new LinkedList<>();
+                trimAnglesForMaxThrust = new int[181];           //for angles from 0 to 180 degrees
+
+                for (int i = 0; i < trimAnglesForMaxThrust.length; i++) {
+                    double maxThrustAngle = 0;
+                    for (int j = 0; j < liftCoefficientArray.length; j++) {
+                        double temp = sin(toRadians(i)) * liftCoefficientArray[j] - cos(toRadians(i)) * dragCoefficientArray[j];
+                        if (j == 0 || temp >= maxThrustAngle) {
+                            trimAnglesForMaxThrust[i] = j;
+                            maxThrustAngle = temp;
+                        }// constant:  0.5 * Simulation.airDensity * outer.getArea() * outer.outer.getVelocity() are omitted
+                    }
+                }
+            }
 
             public SailController(double proportionalCoefficientForTrim, double proportionalCoefficientForTwist) {
                 this.proportionalCoefficientForTrim = proportionalCoefficientForTrim;
@@ -380,6 +420,13 @@ public class Yacht {
         RudderEngineController rudderEngineController;
         RudderEngine rudderEngine;
         private double currentAngle;
+
+        public Rudder() {
+            area = 0.5;
+            rudderController = new RudderController();
+            rudderEngineController = new RudderEngineController();
+            rudderEngine = new RudderEngine();
+        }
 
         public Rudder(double area,
                       double rudderControllerProportionalCoefficient, double rudderControllerIntegralCoefficient, double rudderControllerDerivativeCoefficient,
