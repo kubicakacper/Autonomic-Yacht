@@ -18,10 +18,10 @@ public class CarEngine extends Engine {     //trim  //belongs to Sail
     }
 
     //while tacking or gybing, CarEngineController is off (see TO_PORT or TO_STARBOARD case)
-    public double setCurrentVelocity(StatesOfCarEngine requiredStateOfCarEngine, StatesOfSail stateOfSail) {
+    public double setCurrentVelocity(StatesOfCarEngine StateOfCarEngine, StatesOfSail stateOfSail) {
         switch (stateOfSail) {
             case STARBOARD:
-                switch (requiredStateOfCarEngine) { //left tack
+                switch (StateOfCarEngine) { //left tack
                     case SHEET_IN_FAST:
                         super.setCurrentVelocity(super.getMaxVelocity() * (-1));
                         break;
@@ -42,7 +42,7 @@ public class CarEngine extends Engine {     //trim  //belongs to Sail
                 }
                 break;
             case PORT:
-                switch (requiredStateOfCarEngine) {
+                switch (StateOfCarEngine) {
                     case SHEET_IN_FAST:
                         super.setCurrentVelocity(super.getMaxVelocity() * 1);
                         break;

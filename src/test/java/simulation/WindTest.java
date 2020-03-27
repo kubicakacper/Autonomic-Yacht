@@ -5,7 +5,6 @@ import org.junit.Test;
 import yacht.Yacht;
 
 import java.security.SecureRandom;
-import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -13,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 
 public class WindTest {
 
-    Random random = new SecureRandom();
+    SecureRandom random = new SecureRandom();
     Wind trueWind;
     WindIndicator windIndicator = new WindIndicator();
     Yacht yacht = new Yacht();

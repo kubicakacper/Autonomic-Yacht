@@ -16,6 +16,7 @@ import yacht.sail.sheet.Sheet;
 import yacht.sail.sheet.SheetEngine;
 import yacht.sail.sheet.SheetEngineController;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.OptionalDouble;
@@ -155,12 +156,18 @@ public class Yacht {
         SheetEngine sheetEngine;
         Sheet sheet;
         private StatesOfSail currentStateOfSail;   //port / starboard
-        private StatesOfSail requiredStateOfSail;
         private double currentTrimAngle;   // in degrees    //left: "-"; right: "+".
         private double currentTwistAngle;  // in degrees
         private double currentHeadPosition; //in degrees    //trimAngle + twistAngle
 
         public Sail() {
+            this.liftCoefficientArray = new double[91];
+            this.dragCoefficientArray = new double[91];
+
+            ReadSailCoefficients.openFile("sailCoefficients.txt");
+            ReadSailCoefficients.readRecords(liftCoefficientArray, dragCoefficientArray);
+            ReadSailCoefficients.closeFile();
+
             area = 2;
             footHeight = 1;
             headHeight = 4;
@@ -172,7 +179,6 @@ public class Yacht {
             sheetEngine = new SheetEngine();
             sheet = new Sheet();
             currentStateOfSail = StatesOfSail.PORT;
-            requiredStateOfSail = StatesOfSail.PORT;
         }
 
         public Sail(double area, double footHeight, double headHeight, StatesOfSail stateOfSail,
@@ -196,12 +202,14 @@ public class Yacht {
             this.headHeight = headHeight;
             this.currentStateOfSail = stateOfSail;
 
-            this.liftCoefficientArray = new double[91];
-            this.dragCoefficientArray = new double[91];
+            liftCoefficientArray = new double[91];
+            dragCoefficientArray = new double[91];
 
-            ReadSailCoefficients.openFile("sailCoefficients");
+            ReadSailCoefficients.openFile("sailCoefficients.txt");
             ReadSailCoefficients.readRecords(liftCoefficientArray, dragCoefficientArray);
             ReadSailCoefficients.closeFile();
+
+            System.out.println(Arrays.toString(liftCoefficientArray));
 
             sailController = new SailController(sailControllerProportionalCoefficientForTrim, sailControllerProportionalCoefficientForTwist);
 
@@ -373,11 +381,9 @@ public class Yacht {
             int countRequiredTrim(double newWindDirectionAtFoot) {    //function call param: Yacht.WindIndicator.process().direction
                 double newAverageWindDirection = countAverageAtFoot(newWindDirectionAtFoot);
                 if (newAverageWindDirection < -20 && newAverageWindDirection > -135) {
-                    setRequiredStateOfSail(StatesOfSail.STARBOARD);
                     if (currentStateOfSail == StatesOfSail.PORT || currentStateOfSail == StatesOfSail.TO_PORT)
                         setCurrentStateOfSail(StatesOfSail.TO_STARBOARD);
                 } else if (newAverageWindDirection > 20 && newAverageWindDirection < 135) {
-                    setRequiredStateOfSail(StatesOfSail.PORT);
                     if (currentStateOfSail == StatesOfSail.STARBOARD || currentStateOfSail == StatesOfSail.TO_STARBOARD)
                         setCurrentStateOfSail(StatesOfSail.TO_PORT);
                 }
@@ -392,6 +398,8 @@ public class Yacht {
 
             //This function receives measured apparent wind and counts control variable, which is required sail twist
             int countRequiredTwist(double newWindDirectionAtHead) {    //function call param: Yacht.WindIndicator.process().direction
+                if (currentStateOfSail == StatesOfSail.TO_PORT || currentStateOfSail == StatesOfSail.TO_STARBOARD)
+                    return 0;
                 double newAverageWindDirection = countAverageAtHead(newWindDirectionAtHead);
                 int windDirection = (int) abs(round(newAverageWindDirection));
                 return trimAnglesForMaxThrust[windDirection] - (int) getCurrentTrimAngle();
