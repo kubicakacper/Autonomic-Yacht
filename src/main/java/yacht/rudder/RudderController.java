@@ -24,7 +24,7 @@ public class RudderController {
         derivativeCoefficient = 0.5;
     }
 
-    public double countAndReturnControlValue(double requiredCourse, double measuredCourse) {
+    public double countControlValue(double requiredCourse, double measuredCourse) {
         double error = requiredCourse - measuredCourse;
         if (error > 180)
             error -= 360;
