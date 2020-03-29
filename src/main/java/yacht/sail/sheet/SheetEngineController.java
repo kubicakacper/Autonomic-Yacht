@@ -39,25 +39,24 @@ public class SheetEngineController {
             System.out.println("Offset must be positive!");
     }
 
-    public StatesOfSheetEngine setStateOfEngine(double controlVariable) {
+    public void setStateOfEngine(double controlValue) {
         switch (currentStateOfSheetEngine) {
             case HAUL:
-                if (controlVariable > -(offset - hysteresis))
+                if (controlValue > -(offset - hysteresis))
                     currentStateOfSheetEngine = StatesOfSheetEngine.STAND_BY;
                 break;
             case STAND_BY:
-                if (controlVariable < -(offset + hysteresis))
+                if (controlValue < -(offset + hysteresis))
                     currentStateOfSheetEngine = StatesOfSheetEngine.HAUL;
-                else if (controlVariable > offset + hysteresis)
+                else if (controlValue > offset + hysteresis)
                     currentStateOfSheetEngine = StatesOfSheetEngine.EASE;
                 break;
             case EASE:
-                if (controlVariable < offset - hysteresis)
+                if (controlValue < offset - hysteresis)
                     currentStateOfSheetEngine = StatesOfSheetEngine.STAND_BY;
                 break;
             default:
                 System.out.println("No such state of rudder engine!");
         }
-        return currentStateOfSheetEngine;
     }
 }

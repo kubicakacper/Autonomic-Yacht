@@ -9,8 +9,9 @@ public class RudderController {
     private double proportionalCoefficient;
     private double integralCoefficient;
     private double derivativeCoefficient;
-    private double errorIntegral;           //initialized as 0.0
-    private double preError;                //initialized as 0.0
+    private double errorIntegral;
+    private double preError;
+    private double currentControlValue;
 
     public RudderController(double proportionalCoefficient, double integralCoefficient, double derivativeCoefficient) {
         this.proportionalCoefficient = proportionalCoefficient;
@@ -19,12 +20,12 @@ public class RudderController {
     }
 
     public RudderController() {
-        proportionalCoefficient = 1;
-        integralCoefficient = 0.1;
-        derivativeCoefficient = 0.5;
+        proportionalCoefficient = 0.01;
+        integralCoefficient = 0;
+        derivativeCoefficient = 0;
     }
 
-    public double countControlValue(double requiredCourse, double measuredCourse) {
+    public void countControlValue(double requiredCourse, double measuredCourse) {
         double error = requiredCourse - measuredCourse;
         if (error > 180)
             error -= 360;
@@ -32,11 +33,10 @@ public class RudderController {
             error += 360;
         errorIntegral *= 1 - Simulation.samplingPeriod / 100;
         errorIntegral += error * Simulation.samplingPeriod;
-        double controlValue = getProportionalCoefficient() * error
+        setCurrentControlValue(getProportionalCoefficient() * error
                 + getIntegralCoefficient() * getErrorIntegral() * Simulation.samplingPeriod
-                + getDerivativeCoefficient() * (error - getPreError()) / Simulation.samplingPeriod;
+                + getDerivativeCoefficient() * (error - getPreError()) / Simulation.samplingPeriod);
         setPreError(error);
-        return controlValue;
     }
 }
 

@@ -25,19 +25,19 @@ public class WindIndicatorTest {
     @Test
     public void should_count_wind_correctly_INIRONS() {
         //Given
-        yacht.setCourseAzimuth(trueWind.getDirection());
+        yacht.setFollowedCourseAzimuth(trueWind.getDirection());
         //When
         Wind apparentWind = windIndicator.measureWind(trueWind, yacht, 0);
         //Then
         assertEquals(apparentWind.getSpeed(), trueWind.getSpeed() + yacht.getVelocity(), 0.01);
-        assertEquals(trueWind.getDirection(), yacht.getCourseAzimuth(), 0.01);
+        assertEquals(trueWind.getDirection(), yacht.getFollowedCourseAzimuth(), 0.01);
         assertEquals(apparentWind.getDirection(), 0, 0.01);
     }
 
     @Test
     public void should_count_wind_correctly_INTHEBEAM() {
         //Given
-        yacht.setCourseAzimuth(trueWind.getDirection() + 90);
+        yacht.setFollowedCourseAzimuth(trueWind.getDirection() + 90);
         //When
         Wind apparentWind = windIndicator.measureWind(trueWind, yacht, 0);
         //Then
@@ -47,12 +47,12 @@ public class WindIndicatorTest {
     @Test
     public void should_count_wind_correctly_INTHERUN() {
         //Given
-        yacht.setCourseAzimuth(trueWind.getDirection() + 180);
+        yacht.setFollowedCourseAzimuth(trueWind.getDirection() + 180);
         //When
         Wind apparentWind = windIndicator.measureWind(trueWind, yacht, 0);
         //Then
         assertEquals(apparentWind.getSpeed(), Math.abs(trueWind.getSpeed() - yacht.getVelocity()), 0.01);
-        assertEquals(trueWind.getDirection(), (yacht.getCourseAzimuth() + 180) % 360, 0.01);
+        assertEquals(trueWind.getDirection(), (yacht.getFollowedCourseAzimuth() + 180) % 360, 0.01);
         apparentWind.setDirection(Math.round(apparentWind.getDirection()));
         assertTrue(apparentWind.getDirection() == 0 || apparentWind.getDirection() == 180);
     }

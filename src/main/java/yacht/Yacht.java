@@ -14,13 +14,12 @@ import static java.lang.Math.pow;
 @Data
 public class Yacht {
 
-    private final double mass = 500;                                //in kg
-    private final double momentOfInertia = 2000;                     //in basic SI unit
+    private final double mass = 100;                                //in kg
+    private final double momentOfInertia = 400;                     //in basic SI unit
     private final double distanceRudderFromCenterOfRotation = 2;    //in meters
     private final double closestCourseAgainstWind = 37;             // concerns TRUE wind
     public Sail sail;
     public Rudder rudder;
-    private double requiredCourseAzimuth;
     public WindIndicator windIndicatorAtFoot;
     public WindIndicator windIndicatorAtHead;
     private double courseAgainstWind;   // left:"-", right:"+".
@@ -29,6 +28,7 @@ public class Yacht {
     private double acceleration;
     private double angleVelocity;   // angle velocity of turn in basic SI ...; left:"-", right:"+".
     private double angleAcceleration;
+    private double requiredCourseAzimuth;
     private double followedCourseAzimuth;
     private double currentCourseAzimuth;
 
@@ -107,17 +107,15 @@ public class Yacht {
     }
 
     public void setCourseAgainstWind(double apparentWindDirection) {
-/*        double temp = abs(getCourseAzimuth() - windDirection);
-        if(temp > 180)
-            temp = 360 - temp;
-        this.courseAgainstWind = temp;*/
         this.courseAgainstWind = abs(apparentWindDirection);
     }
 
-    public void process(double sideForce, double thrustForce, Wind trueWind) {
+    public void process(double thrustForce, double sideForce, Wind trueWind) {
         setAcceleration(thrustForce / mass);
+        if (getVelocity() < 0)
+            setVelocity(0);
         setVelocity(getVelocity() + getAcceleration() * Simulation.samplingPeriod);
-        double deceleration = 100 * pow(getVelocity(), 2) / mass;
+        double deceleration = 10 * pow(getVelocity(), 2) / mass;
         setVelocity(getVelocity() - deceleration * Simulation.samplingPeriod);
 
         setAngleAcceleration(sideForce * distanceRudderFromCenterOfRotation / momentOfInertia);

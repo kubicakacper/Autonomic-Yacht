@@ -1,9 +1,9 @@
 package yacht.sail.car;
 
 public enum StatesOfCarEngine {
-    SHEET_IN_FAST,
-    SHEET_IN_SLOW,
+    LEFT_FAST,
+    LEFT,
     STAND_BY,
-    SHEET_OUT_SLOW,
-    SHEET_OUT_FAST
+    RIGHT,
+    RIGHT_FAST
 }

@@ -13,5 +13,3 @@ public class Wind {
     private double direction;       //as azimuth, in degrees
 
 }
-
-//later: wind_change...

@@ -21,7 +21,7 @@ public class Sheet {    //klasa należy do Sail
     }
     // current length over min is the difference between current height and minimal height (measured above the car).
 
-    public void setCurrentLengthOverMin(double newLengthOverMinInMeters) {
+    private void setCurrentLengthOverMin(double newLengthOverMinInMeters) {
         if (newLengthOverMinInMeters >= 0 && newLengthOverMinInMeters <= maxLengthOverMin)
             this.currentLengthOverMin = newLengthOverMinInMeters;
         else if (newLengthOverMinInMeters < 0)
@@ -30,8 +30,7 @@ public class Sheet {    //klasa należy do Sail
             this.currentLengthOverMin = maxLengthOverMin;
     }
 
-    public double countLengthOverMin(double engineVelocity) {
+    public void countLengthOverMin(double engineVelocity) {
         setCurrentLengthOverMin(getCurrentLengthOverMin() + engineVelocity * Simulation.samplingPeriod / getGearRatio());
-        return getCurrentLengthOverMin();
     }
 }

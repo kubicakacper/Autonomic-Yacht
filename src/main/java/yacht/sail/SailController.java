@@ -22,15 +22,20 @@ public class SailController {    //SailController operates only on apparent wind
     private LinkedList<Double> windDirectionAtHeadHistory;
     private double averageWindDirectionAtFoot;      //reduces wind fluctuations
     private double averageWindDirectionAtHead;      //reduces wind fluctuations
+    private double currentControlValueAtFoot;
+    private double currentControlValueAtHead;
 
     public SailController(Sail sail) {
-        proportionalCoefficientForTrim = 1;
-        proportionalCoefficientForTwist = 1;
+        proportionalCoefficientForTrim = 0.1;
+        proportionalCoefficientForTwist = 0.1;
         windDirectionAtFootHistory = new LinkedList<>();         //double[(int) (10/getSamplingPeriodInSeconds())];
         windDirectionAtHeadHistory = new LinkedList<>();
         trimAnglesForMaxThrust = new int[181];           //for angles from 0 to 180 degrees
 
         for (int i = 0; i < trimAnglesForMaxThrust.length; i++) {
+            trimAnglesForMaxThrust[i] = i / 2;
+        }
+/*        for (int i = 0; i < trimAnglesForMaxThrust.length; i++) {
             double maxThrustAngle = 0;
             for (int j = 0; j < sail.liftCoefficientArray.length; j++) {
                 double temp = sin(toRadians(i)) * sail.liftCoefficientArray[j] - cos(toRadians(i)) * sail.dragCoefficientArray[j];
@@ -39,7 +44,7 @@ public class SailController {    //SailController operates only on apparent wind
                     maxThrustAngle = temp;
                 }// constant:  0.5 * Simulation.airDensity * outer.getArea() * outer.outer.getVelocity() are omitted
             }
-        }
+        }*/
     }
 
     public SailController(double proportionalCoefficientForTrim, double proportionalCoefficientForTwist, Sail sail) {
@@ -137,13 +142,17 @@ public class SailController {    //SailController operates only on apparent wind
             if (sail.getCurrentStateOfSail() == StatesOfSail.STARBOARD || sail.getCurrentStateOfSail() == StatesOfSail.TO_STARBOARD)
                 sail.setCurrentStateOfSail(StatesOfSail.TO_PORT);
         }
-        if (sail.getCurrentStateOfSail() == StatesOfSail.TO_STARBOARD && sail.car.getCurrentPositionInDegrees() < -10)
+        if (sail.getCurrentStateOfSail() == StatesOfSail.TO_STARBOARD && sail.car.getCurrentPositionInDegrees() > 10)
             sail.setCurrentStateOfSail(StatesOfSail.STARBOARD);
-        if (sail.getCurrentStateOfSail() == StatesOfSail.TO_PORT && sail.car.getCurrentPositionInDegrees() > 10)
+        if (sail.getCurrentStateOfSail() == StatesOfSail.TO_PORT && sail.car.getCurrentPositionInDegrees() < -10)
             sail.setCurrentStateOfSail(StatesOfSail.PORT);
 
         int windDirection = (int) abs(round(newAverageWindDirection));
-        return trimAnglesForMaxThrust[windDirection];
+        if (newAverageWindDirection < 0)
+            return trimAnglesForMaxThrust[windDirection];
+        else
+            return -trimAnglesForMaxThrust[windDirection];
+
     }
 
     //This function receives measured apparent wind and counts control variable, which is required sail twist
@@ -155,14 +164,12 @@ public class SailController {    //SailController operates only on apparent wind
         return trimAnglesForMaxThrust[windDirection] - (int) sail.getCurrentTrimAngle();
     }
 
-    public double countControlValueAtFoot(double newWindDirection, Sail sail) {
-        //setCurrentTrimAngle(car.getCurrentPositionInDegrees());
-        return getProportionalCoefficientForTrim() * (countRequiredTrim(newWindDirection, sail) - sail.getCurrentTrimAngle());
+    public void countControlValueAtFoot(double newWindDirection, Sail sail) {
+        setCurrentControlValueAtFoot(getProportionalCoefficientForTrim() * (countRequiredTrim(newWindDirection, sail) - sail.getCurrentTrimAngle()));
     }
 
-    public double countControlValueAtHead(double newWindDirection, Sail sail) {
-        //setCurrentTwistAngle();
-        return getProportionalCoefficientForTwist() * (countRequiredTwist(newWindDirection, sail) - sail.getCurrentTwistAngle());
+    public void countControlValueAtHead(double newWindDirection, Sail sail) {
+        setCurrentControlValueAtHead(getProportionalCoefficientForTwist() * (countRequiredTwist(newWindDirection, sail) - sail.getCurrentTwistAngle()));
     }
 
 }

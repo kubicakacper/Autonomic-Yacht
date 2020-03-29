@@ -14,7 +14,7 @@ public abstract class Engine {
     private final double maxVelocity;
     private double currentVelocity;
 
-    public Engine(double maxVelocity) {
+    protected Engine(double maxVelocity) {
         if (maxVelocity > 0)
             this.maxVelocity = maxVelocity;
         else {
@@ -23,7 +23,7 @@ public abstract class Engine {
         }
     }
 
-    public void setCurrentVelocity(double currentVelocity) {
+    protected void setCurrentVelocity(double currentVelocity) {
         if (abs(currentVelocity) <= getMaxVelocity())
             this.currentVelocity = currentVelocity;
         else {

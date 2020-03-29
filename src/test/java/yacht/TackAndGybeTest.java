@@ -15,7 +15,7 @@ public class TackAndGybeTest {
 
     @Before
     public void before() {
-        yacht.setCourseAzimuth(0);
+        yacht.setFollowedCourseAzimuth(0);
     }
 
     @Test
@@ -24,7 +24,7 @@ public class TackAndGybeTest {
         trueWind.setDirection(60);
         yacht.sail.setCurrentStateOfSail(StatesOfSail.PORT);
         //When
-        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection());
+        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection(), yacht.sail);
         //Then
         assertSame(yacht.sail.getCurrentStateOfSail(), StatesOfSail.PORT);
     }
@@ -35,7 +35,7 @@ public class TackAndGybeTest {
         trueWind.setDirection(300);
         yacht.sail.setCurrentStateOfSail(StatesOfSail.STARBOARD);
         //When
-        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection());
+        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection(), yacht.sail);
         //Then
         assertSame(yacht.sail.getCurrentStateOfSail(), StatesOfSail.STARBOARD);
     }
@@ -46,7 +46,7 @@ public class TackAndGybeTest {
         trueWind.setDirection(300);
         yacht.sail.setCurrentStateOfSail(StatesOfSail.PORT);
         //When
-        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection());
+        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection(), yacht.sail);
         //Then
         assertSame(yacht.sail.getCurrentStateOfSail(), StatesOfSail.TO_STARBOARD);
     }
@@ -57,7 +57,7 @@ public class TackAndGybeTest {
         trueWind.setDirection(60);
         yacht.sail.setCurrentStateOfSail(StatesOfSail.STARBOARD);
         //When
-        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection());
+        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection(), yacht.sail);
         //Then
         assertSame(yacht.sail.getCurrentStateOfSail(), StatesOfSail.TO_PORT);
     }
@@ -68,7 +68,7 @@ public class TackAndGybeTest {
         yacht.sail.car.setCurrentPositionInDegrees(5);
         yacht.sail.setCurrentStateOfSail(StatesOfSail.TO_STARBOARD);
         //When
-        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection());
+        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection(), yacht.sail);
         //Then
         assertSame(yacht.sail.getCurrentStateOfSail(), StatesOfSail.TO_STARBOARD);
     }
@@ -79,7 +79,7 @@ public class TackAndGybeTest {
         yacht.sail.car.setCurrentPositionInDegrees(-50);
         yacht.sail.setCurrentStateOfSail(StatesOfSail.TO_PORT);
         //When
-        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection());
+        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection(), yacht.sail);
         //Then
         assertSame(yacht.sail.getCurrentStateOfSail(), StatesOfSail.TO_PORT);
     }
@@ -90,7 +90,7 @@ public class TackAndGybeTest {
         yacht.sail.car.setCurrentPositionInDegrees(-15);
         yacht.sail.setCurrentStateOfSail(StatesOfSail.TO_STARBOARD);
         //When
-        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection());
+        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection(), yacht.sail);
         //Then
         assertSame(yacht.sail.getCurrentStateOfSail(), StatesOfSail.STARBOARD);
     }
@@ -101,7 +101,7 @@ public class TackAndGybeTest {
         yacht.sail.car.setCurrentPositionInDegrees(15);
         yacht.sail.setCurrentStateOfSail(StatesOfSail.TO_PORT);
         //When
-        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection());
+        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection(), yacht.sail);
         //Then
         assertSame(yacht.sail.getCurrentStateOfSail(), StatesOfSail.PORT);
     }
@@ -111,7 +111,7 @@ public class TackAndGybeTest {
         //Given
         yacht.sail.setCurrentStateOfSail(StatesOfSail.TO_PORT);
         //When
-        yacht.sail.carEngine.setCurrentVelocity(yacht.sail.carEngineController.getCurrentStateOfCarEngine(), yacht.sail.getCurrentStateOfSail());
+        yacht.sail.carEngine.setCurrentVelocity(yacht.sail.carEngineController.getCurrentStateOfCarEngine());
         //Then
         assertEquals(yacht.sail.carEngine.getCurrentVelocity(), yacht.sail.carEngine.getMaxVelocity() * (-1), 0.01);
     }

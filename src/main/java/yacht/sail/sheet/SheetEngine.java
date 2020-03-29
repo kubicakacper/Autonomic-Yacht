@@ -16,7 +16,7 @@ public class SheetEngine extends Engine {    //twist
         super(1);
     }
 
-    public double setCurrentVelocity(StatesOfSheetEngine requiredStateOfSheetEngine) {
+    public void setCurrentVelocity(StatesOfSheetEngine requiredStateOfSheetEngine) {
         switch (requiredStateOfSheetEngine) {
             case HAUL:
                 super.setCurrentVelocity(super.getMaxVelocity() * (-1));
@@ -30,6 +30,5 @@ public class SheetEngine extends Engine {    //twist
             default:
                 System.out.println("No such state of sheet engine!");
         }
-        return super.getCurrentVelocity();
     }
 }

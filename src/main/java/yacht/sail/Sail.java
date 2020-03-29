@@ -103,7 +103,7 @@ public class Sail {
         if (abs(currentTrimAngle) <= maxTrimAngle)
             this.currentTrimAngle = currentTrimAngle;
         else
-            System.out.println("Trim angle must be greater than " + -maxTwistAngle + " and lower than " + maxTrimAngle + " degrees!");
+            System.out.println("Trim angle must be greater than " + -maxTrimAngle + " and lower than " + maxTrimAngle + " degrees!");
     }
 
     void setCurrentTwistAngle(double currentTwistAngle) {
@@ -125,12 +125,13 @@ public class Sail {
         setCurrentTwistAngle(sqrt(sheet.getCurrentLengthOverMin()
                 * (2 * sailLength - sheet.getCurrentLengthOverMin())) / car.getDistanceFromMast());
         setCurrentHeadPosition(getCurrentTrimAngle(), getCurrentTwistAngle());
-        int approxAngleOfAttack = (int) round((abs(yacht.windIndicatorAtFoot.getDirection()) - abs(getCurrentTrimAngle())) * 0.75 + abs(abs(yacht.windIndicatorAtHead.getDirection() - getCurrentHeadPosition())) * 0.25);
+        int approxAngleOfAttack = (int) round((abs(yacht.windIndicatorAtFoot.getDirection() + getCurrentTrimAngle())) * 0.75 + abs(abs(yacht.windIndicatorAtHead.getDirection() + getCurrentHeadPosition())) * 0.25);
+        if (approxAngleOfAttack > 90)
+            approxAngleOfAttack = 180 - approxAngleOfAttack;
         if (approxAngleOfAttack < 0)
             approxAngleOfAttack = 0;
         double liftCoefficient = liftCoefficientArray[approxAngleOfAttack];
         double dragCoefficient = dragCoefficientArray[approxAngleOfAttack];
-
         return 0.5 * Simulation.airDensity * getArea() * pow(yacht.getSpeedAgainstWind(), 2)
                 * (sin(toRadians(yacht.getCourseAgainstWind())) * liftCoefficient - cos(toRadians(yacht.getCourseAgainstWind())) * dragCoefficient);
     }

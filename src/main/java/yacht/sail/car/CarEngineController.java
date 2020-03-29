@@ -3,6 +3,7 @@ package yacht.sail.car;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import yacht.sail.StatesOfSail;
 
 @Getter
 @ToString
@@ -20,8 +21,9 @@ public class CarEngineController {
     }
 
     public CarEngineController() {
-        hysteresis = 0.1;
-        offset = 0.25;
+        hysteresis = 0.001;
+        offset = 0.0025;
+        currentStateOfCarEngine = StatesOfCarEngine.STAND_BY;
     }
 
     public void setHysteresis(double hysteresis) {
@@ -38,25 +40,43 @@ public class CarEngineController {
             System.out.println("Offset must be positive!");
     }
 
-    public StatesOfCarEngine setStateOfEngine(double controlVariable) {
-        switch (currentStateOfCarEngine) {
-            case SHEET_IN_SLOW:
-                if (controlVariable > -(offset - hysteresis))
-                    currentStateOfCarEngine = StatesOfCarEngine.STAND_BY;
+    public void setStateOfEngine(double controlValue, StatesOfSail stateOfSail) {
+        switch (stateOfSail) {
+            case TO_STARBOARD:
+                currentStateOfCarEngine = StatesOfCarEngine.RIGHT_FAST;
                 break;
-            case STAND_BY:
-                if (controlVariable < -(offset + hysteresis))
-                    currentStateOfCarEngine = StatesOfCarEngine.SHEET_IN_SLOW;
-                else if (controlVariable > offset + hysteresis)
-                    currentStateOfCarEngine = StatesOfCarEngine.SHEET_OUT_SLOW;
+            case TO_PORT:
+                currentStateOfCarEngine = StatesOfCarEngine.LEFT_FAST;
                 break;
-            case SHEET_OUT_SLOW:
-                if (controlVariable < offset - hysteresis)
-                    currentStateOfCarEngine = StatesOfCarEngine.STAND_BY;
+            case STARBOARD:
+            case PORT:
+                switch (currentStateOfCarEngine) {
+                    case LEFT_FAST:
+                        currentStateOfCarEngine = StatesOfCarEngine.LEFT;
+                        break;
+                    case LEFT:
+                        if (controlValue > -(offset - hysteresis))
+                            currentStateOfCarEngine = StatesOfCarEngine.STAND_BY;
+                        break;
+                    case STAND_BY:
+                        if (controlValue < -(offset + hysteresis))
+                            currentStateOfCarEngine = StatesOfCarEngine.LEFT;
+                        else if (controlValue > offset + hysteresis)
+                            currentStateOfCarEngine = StatesOfCarEngine.RIGHT;
+                        break;
+                    case RIGHT:
+                        if (controlValue < offset - hysteresis)
+                            currentStateOfCarEngine = StatesOfCarEngine.STAND_BY;
+                        break;
+                    case RIGHT_FAST:
+                        currentStateOfCarEngine = StatesOfCarEngine.RIGHT;
+                        break;
+                    default:
+                        System.out.println("No such state of car engine!");
+                }
                 break;
             default:
-                System.out.println("No such state of rudder engine!");
+                System.out.println("No such state of sail!");
         }
-        return currentStateOfCarEngine;
     }
 }

@@ -39,7 +39,7 @@ public class RudderEngineController {
             System.out.println("Offset must be positive!");
     }
 
-    public StatesOfRudderEngine setStateOfEngine(double controlVariable) {
+    public void setStateOfEngine(double controlVariable) {
         switch (currentStateOfRudderEngine) {
             case LEFT:
                 if (controlVariable > -(offset - hysteresis))
@@ -58,6 +58,5 @@ public class RudderEngineController {
             default:
                 System.out.println("No such state of rudder engine!");
         }
-        return currentStateOfRudderEngine;
     }
 }

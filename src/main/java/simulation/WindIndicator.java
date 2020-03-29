@@ -25,7 +25,7 @@ public class WindIndicator {
          */
     public Wind measureWind(Wind trueWind, Yacht yacht, double height) {
         double windSpeed = trueWind.getSpeed() * Simulation.windGradient(height);
-        double angleBetweenVectorsInDegrees = abs(trueWind.getDirection() - yacht.getFollowedCourseAzimuth());    // yachtDirection == inducedWindDirection
+        double angleBetweenVectorsInDegrees = abs(trueWind.getDirection() - yacht.getCurrentCourseAzimuth());    // yachtDirection == inducedWindDirection
         double apparentWindSpeed = sqrt(pow(windSpeed, 2) + pow(yacht.getVelocity(), 2) + 2 * windSpeed * yacht.getVelocity() * cos(toRadians(angleBetweenVectorsInDegrees)));
         double apparentWindDirectionCountingFromBow = toDegrees(atan2(windSpeed * sin(toRadians(angleBetweenVectorsInDegrees)),
                 yacht.getVelocity() + windSpeed * cos(toRadians(angleBetweenVectorsInDegrees))));

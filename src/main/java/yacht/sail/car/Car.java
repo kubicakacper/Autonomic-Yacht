@@ -32,9 +32,8 @@ public class Car {  //belongs to Sail
             this.currentPositionInDegrees = -maxAnglePosition;
     }
 
-    public double countPositionInDegrees(double engineVelocity) {    //if car goes left, velocity must be negative!
+    public void countPositionInDegrees(double engineVelocity) {    //if car goes left, velocity must be negative!
         double angleVelocityInRadians = engineVelocity / distanceFromMast;
         setCurrentPositionInDegrees(getCurrentPositionInDegrees() + toDegrees(angleVelocityInRadians) * Simulation.samplingPeriod);
-        return getCurrentPositionInDegrees();   //returns currentSailTrim
     }
 }
