@@ -20,8 +20,8 @@ public class RudderEngineController {
     }
 
     public RudderEngineController() {
-        hysteresis = 0.1;
-        offset = 0.25;
+        hysteresis = 0.5;
+        offset = 2;
         currentStateOfRudderEngine = StatesOfRudderEngine.STAND_BY;
     }
 

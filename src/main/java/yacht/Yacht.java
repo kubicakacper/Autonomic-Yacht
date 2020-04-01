@@ -77,6 +77,7 @@ public class Yacht {
     }
 
     public void setRequiredCourseAzimuth(double requiredCourseAzimuth, double trueWindDirection) {
+        requiredCourseAzimuth %= 360;
         this.requiredCourseAzimuth = requiredCourseAzimuth;
         double absDifference = abs(requiredCourseAzimuth - trueWindDirection);
         double circleAbsDifference = absDifference;
@@ -120,9 +121,15 @@ public class Yacht {
 
         setAngleAcceleration(sideForce * distanceRudderFromCenterOfRotation / momentOfInertia);
         setAngleVelocity(getAngleVelocity() + getAngleAcceleration() * Simulation.samplingPeriod);
-        double angleDeceleration = 5000 * pow(getAngleVelocity(), 2) / momentOfInertia;
+        double angleDeceleration = 10 * pow(getAngleVelocity(), 2) / momentOfInertia;
+        if (getAngleVelocity() < 0)
+            angleDeceleration *= -1;
         setAngleVelocity(getAngleVelocity() - angleDeceleration * Simulation.samplingPeriod);
         setCurrentCourseAzimuth(getCurrentCourseAzimuth() + getAngleVelocity() * Simulation.samplingPeriod);
+        if (currentCourseAzimuth < 0)
+            setCurrentCourseAzimuth(currentCourseAzimuth + 360);
+        else if (currentCourseAzimuth >= 360)
+            setCurrentCourseAzimuth(currentCourseAzimuth - 360);
 
         windIndicatorAtFoot.measureWind(trueWind, this, sail.getFootHeight());
         windIndicatorAtHead.measureWind(trueWind, this, sail.getHeadHeight());
