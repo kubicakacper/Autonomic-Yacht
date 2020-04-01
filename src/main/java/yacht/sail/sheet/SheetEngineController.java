@@ -11,18 +11,18 @@ public class SheetEngineController {
 
     private double hysteresis;
     private double offset;
-    private StatesOfSheetEngine currentStateOfSheetEngine;
+    private StatesOfSheetEngine currentStateOfEngine;
 
     public SheetEngineController(double hysteresis, double offset) {
         this.hysteresis = hysteresis;
         this.offset = offset;
-        currentStateOfSheetEngine = StatesOfSheetEngine.STAND_BY;
+        currentStateOfEngine = StatesOfSheetEngine.STAND_BY;
     }
 
     public SheetEngineController() {
-        hysteresis = 0.1;
-        offset = 0.25;
-        currentStateOfSheetEngine = StatesOfSheetEngine.STAND_BY;
+        hysteresis = 0.05;
+        offset = 0.1;
+        currentStateOfEngine = StatesOfSheetEngine.STAND_BY;
     }
 
     public void setHysteresis(double hysteresis) {
@@ -40,20 +40,20 @@ public class SheetEngineController {
     }
 
     public void setStateOfEngine(double controlValue) {
-        switch (currentStateOfSheetEngine) {
+        switch (currentStateOfEngine) {
             case HAUL:
                 if (controlValue > -(offset - hysteresis))
-                    currentStateOfSheetEngine = StatesOfSheetEngine.STAND_BY;
+                    currentStateOfEngine = StatesOfSheetEngine.STAND_BY;
                 break;
             case STAND_BY:
                 if (controlValue < -(offset + hysteresis))
-                    currentStateOfSheetEngine = StatesOfSheetEngine.HAUL;
+                    currentStateOfEngine = StatesOfSheetEngine.HAUL;
                 else if (controlValue > offset + hysteresis)
-                    currentStateOfSheetEngine = StatesOfSheetEngine.EASE;
+                    currentStateOfEngine = StatesOfSheetEngine.EASE;
                 break;
             case EASE:
                 if (controlValue < offset - hysteresis)
-                    currentStateOfSheetEngine = StatesOfSheetEngine.STAND_BY;
+                    currentStateOfEngine = StatesOfSheetEngine.STAND_BY;
                 break;
             default:
                 System.out.println("No such state of rudder engine!");

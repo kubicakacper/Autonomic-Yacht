@@ -111,7 +111,7 @@ public class TackAndGybeTest {
         //Given
         yacht.sail.setCurrentStateOfSail(StatesOfSail.TO_PORT);
         //When
-        yacht.sail.carEngine.setCurrentVelocity(yacht.sail.carEngineController.getCurrentStateOfCarEngine());
+        yacht.sail.carEngine.setCurrentVelocity(yacht.sail.carEngineController.getCurrentStateOfEngine());
         //Then
         assertEquals(yacht.sail.carEngine.getCurrentVelocity(), yacht.sail.carEngine.getMaxVelocity() * (-1), 0.01);
     }

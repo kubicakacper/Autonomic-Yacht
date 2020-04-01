@@ -21,7 +21,7 @@ public class Sail {
     private final double footHeight;
     private final double headHeight;
     private final double maxTrimAngle = 80.0;   // = Car.maxPositionInDegrees
-    private final double maxTwistAngle = 30.0;
+    private final double maxTwistAngle = 10.0;
     public SailController sailController;
     public CarEngineController carEngineController;
     public CarEngine carEngine;
@@ -110,20 +110,21 @@ public class Sail {
         if (currentTwistAngle >= 0.0 && currentTwistAngle <= maxTwistAngle && currentTrimAngle + currentTwistAngle <= 90.0)
             this.currentTwistAngle = currentTwistAngle;
         else if (currentTrimAngle + currentTwistAngle > 90.0)
-            System.out.println("Trim angle plus twist angle must be lower than 90 degrees!");
-        else
-            System.out.println("Twist angle must be positive and lower than " + maxTwistAngle + " degrees!");
+            this.currentTwistAngle = 90 - currentTwistAngle;
+        else if (currentTwistAngle < 0)
+            this.currentTwistAngle = 0;
+        else //if currentTwistAngle > max && currentTrimAngle + currentTwistAngle < 90.0
+            this.currentTwistAngle = maxTwistAngle;
     }
 
     void setCurrentHeadPosition(double currentTwistAngle, double currentTrimAngle) {
-        this.currentHeadPosition = currentTrimAngle + currentTwistAngle;
+        this.currentHeadPosition = abs(currentTrimAngle) + currentTwistAngle;
     }
 
     public double countThrustForce(Yacht yacht) {
         setCurrentTrimAngle(car.getCurrentPositionInDegrees());   //left: "-"; right: "+".
         double sailLength = getHeadHeight() - getFootHeight();
-        setCurrentTwistAngle(sqrt(sheet.getCurrentLengthOverMin()
-                * (2 * sailLength - sheet.getCurrentLengthOverMin())) / car.getDistanceFromMast());
+        setCurrentTwistAngle(toDegrees(atan2(sqrt(sheet.getCurrentLengthOverMin() * (2 * sailLength - sheet.getCurrentLengthOverMin())), car.getDistanceFromMast())));
         setCurrentHeadPosition(getCurrentTrimAngle(), getCurrentTwistAngle());
         int approxAngleOfAttack = (int) round((abs(yacht.windIndicatorAtFoot.getDirection() + getCurrentTrimAngle())) * 0.75 + abs(abs(yacht.windIndicatorAtHead.getDirection() + getCurrentHeadPosition())) * 0.25);
         if (approxAngleOfAttack > 90)

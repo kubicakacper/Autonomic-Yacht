@@ -161,7 +161,11 @@ public class SailController {    //SailController operates only on apparent wind
             return 0;
         double newAverageWindDirection = countAverageAtHead(newWindDirectionAtHead);
         int windDirection = (int) abs(round(newAverageWindDirection));
-        return trimAnglesForMaxThrust[windDirection] - (int) sail.getCurrentTrimAngle();
+        if (windDirection > 180)
+            windDirection = 180;
+        else if (windDirection < 0)
+            windDirection = 0;
+        return trimAnglesForMaxThrust[windDirection] - (int) abs(sail.getCurrentTrimAngle());
     }
 
     public void countControlValueAtFoot(double newWindDirection, Sail sail) {

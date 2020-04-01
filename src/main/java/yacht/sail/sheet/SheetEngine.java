@@ -13,7 +13,7 @@ public class SheetEngine extends Engine {    //twist
     }
 
     public SheetEngine() {
-        super(1);
+        super(0.0005);
     }
 
     public void setCurrentVelocity(StatesOfSheetEngine requiredStateOfSheetEngine) {
