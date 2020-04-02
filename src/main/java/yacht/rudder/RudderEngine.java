@@ -13,7 +13,7 @@ public class RudderEngine extends Engine {
     }
 
     public RudderEngine() {
-        super(10);
+        super(20);
     }
 
     public double setCurrentAngleVelocity(StatesOfRudderEngine requiredStateOfRudderEngine) { //converts engine power to force

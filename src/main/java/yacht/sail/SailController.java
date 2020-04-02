@@ -148,6 +148,8 @@ public class SailController {    //SailController operates only on apparent wind
             sail.setCurrentStateOfSail(StatesOfSail.PORT);
 
         int windDirection = (int) abs(round(newAverageWindDirection));
+        if (windDirection > 180)
+            windDirection = 180;
         if (newAverageWindDirection < 0)
             return trimAnglesForMaxThrust[windDirection];
         else

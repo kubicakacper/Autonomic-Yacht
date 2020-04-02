@@ -15,7 +15,7 @@ import static java.lang.Math.pow;
 public class Yacht {
 
     private final double mass = 100;                                //in kg
-    private final double momentOfInertia = 400;                     //in basic SI unit
+    private final double momentOfInertia = 200;                     //in basic SI unit
     private final double distanceRudderFromCenterOfRotation = 2;    //in meters
     private final double closestCourseAgainstWind = 37;             // concerns TRUE wind
     public Sail sail;
@@ -115,9 +115,9 @@ public class Yacht {
         setAcceleration(thrustForce / mass);
         if (getVelocity() < 0)
             setVelocity(0);
-        setVelocity(getVelocity() + getAcceleration() * Simulation.samplingPeriod);
-        double deceleration = 10 * pow(getVelocity(), 2) / mass;
+        double deceleration = 5 * pow(abs(getVelocity()), 3) / mass;
         setVelocity(getVelocity() - deceleration * Simulation.samplingPeriod);
+        setVelocity(getVelocity() + getAcceleration() * Simulation.samplingPeriod);
 
         setAngleAcceleration(sideForce * distanceRudderFromCenterOfRotation / momentOfInertia);
         setAngleVelocity(getAngleVelocity() + getAngleAcceleration() * Simulation.samplingPeriod);

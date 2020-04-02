@@ -35,8 +35,9 @@ public class RudderController {
             error -= 360;
         else if (error < -180)
             error += 360;
-        errorIntegral *= 1 - Simulation.samplingPeriod / 20;
-        errorIntegral += error * Simulation.samplingPeriod;
+        errorIntegral *= 1 - Simulation.samplingPeriod / 1000;
+        if (abs(getRequiredAngle()) < 30) //anti-windup
+            errorIntegral += error * Simulation.samplingPeriod;
         double controlValue = getProportionalCoefficient() * error
                 + getIntegralCoefficient() * getErrorIntegral() * Simulation.samplingPeriod
                 + getDerivativeCoefficient() * (error - getPreError()) / Simulation.samplingPeriod;
