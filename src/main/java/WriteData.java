@@ -11,27 +11,31 @@ public class WriteData {
 
     List<String[]> dataLines = new ArrayList<>();
 
-    public WriteData() {/*
+    public WriteData() {
+        String[] caption = new String[]{"apparentWindAtFoot", "Two", "Thrree", "Four.One\nFour.Two"};
+        dataLines.add(caption);
+        /*
         dataLines.add(new String[]
                 {"One", "Two", "Thrree", "Four.One\nFour.Two"});
         dataLines.add(new String[]
                 {"Uno", "Due, Tre", "Quatrooo", "Cinque\"quote\""});*/
     }
 
-    public WriteData(String[] stringArray) {
-        dataLines.add(stringArray);
+    public WriteData(String[] caption) {
+        assert caption != null;
+        dataLines.add(caption);
     }
 
-    public void fillArray(String[] strings, double[][] double2D) {
+/*    public void fillArray(String[] strings, double[][] double2D) {
         setCaption(strings);
         for (double[] line : double2D) {
             addLine(line);
         }
-    }
+    }*/
 
-    public void setCaption(String[] strings) {
+/*    public void setCaption(String[] strings) {
         dataLines.add(strings);
-    }
+    }*/
 
     public void addLine(double[] doubles) {
         String[] strings = convertDoubleToString(doubles);
@@ -50,9 +54,18 @@ public class WriteData {
     }
 
     private String[] convertDoubleToString(double[] doubleValues) {
-        return Arrays.stream(doubleValues)
+        List<String> strings = new ArrayList<>();
+//        for (double doubleValue : doubleValues)
+//            strings.add(String.format("%.1f", doubleValue));
+        Arrays.stream(doubleValues)
+                .mapToObj(value -> String.format("%.2f", value))
+                .forEach(strings::add);
+
+        return strings.toArray(new String[0]);
+
+/*        return Arrays.stream(doubleValues)
                 .mapToObj(String::valueOf)
-                .toArray(String[]::new);
+                .toArray(String[]::new);*/
     }
 
     private String convertStringToCSV(String[] data) {
