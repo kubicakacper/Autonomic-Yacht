@@ -32,7 +32,7 @@ public class Simulation {
         return log2(height + 1) * 0.2 + 1;
     }
 
-    public void go(Yacht yacht, Wind trueWind) {
+    public void goSecond(Yacht yacht, Wind trueWind) {
         for (int i = 0; i < 1 / samplingPeriod; i++) {
 
             Wind apparentWindAtFoot = yacht.windIndicatorAtFoot.measureWind(trueWind, yacht, yacht.sail.getFootHeight());
@@ -55,5 +55,27 @@ public class Simulation {
             double sideForce = yacht.rudder.countSideForce(yacht.rudder.rudderEngine.getCurrentVelocity(), yacht);
             yacht.process(thrustForce, sideForce, trueWind);
         }
+    }
+
+    public void goSample(Yacht yacht, Wind trueWind) {
+        Wind apparentWindAtFoot = yacht.windIndicatorAtFoot.measureWind(trueWind, yacht, yacht.sail.getFootHeight());
+        yacht.sail.sailController.countControlValueAtFoot(apparentWindAtFoot.getDirection(), yacht.sail);
+        yacht.sail.carEngineController.setStateOfEngine(yacht.sail.sailController.getCurrentControlValueAtFoot(), yacht.sail.getCurrentStateOfSail());
+        yacht.sail.carEngine.setCurrentVelocity(yacht.sail.carEngineController.getCurrentStateOfEngine());
+        yacht.sail.car.countPositionInDegrees(yacht.sail.carEngine.getCurrentVelocity());
+
+        Wind apparentWindAtHead = yacht.windIndicatorAtHead.measureWind(trueWind, yacht, yacht.sail.getHeadHeight());
+        yacht.sail.sailController.countControlValueAtHead(apparentWindAtHead.getDirection(), yacht.sail);
+        yacht.sail.sheetEngineController.setStateOfEngine(yacht.sail.sailController.getCurrentControlValueAtHead());
+        yacht.sail.sheetEngine.setCurrentVelocity(yacht.sail.sheetEngineController.getCurrentStateOfEngine());
+        yacht.sail.sheet.countLengthOverMin(yacht.sail.sheetEngine.getCurrentVelocity());
+
+        yacht.rudder.rudderController.countControlValue(yacht);
+        yacht.rudder.rudderEngineController.setStateOfEngine(yacht.rudder.rudderController.getCurrentControlValue());
+        yacht.rudder.rudderEngine.setCurrentAngleVelocity(yacht.rudder.rudderEngineController.getCurrentStateOfRudderEngine());
+
+        double thrustForce = yacht.sail.countThrustForce(yacht);
+        double sideForce = yacht.rudder.countSideForce(yacht.rudder.rudderEngine.getCurrentVelocity(), yacht);
+        yacht.process(thrustForce, sideForce, trueWind);
     }
 }

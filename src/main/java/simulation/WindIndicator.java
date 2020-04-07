@@ -16,8 +16,9 @@ import static java.lang.Math.*;
 @Data //@Getter , @Setter , @ToString , @EqualsAndHashCode and @RequiredArgsConstructor
 public class WindIndicator {
 
-    private double speed;           //in m/s
-    private double direction;       //in degrees (-180 - +180)
+//    private double speed;           //in m/s
+//    private double direction;       //in degrees (-180 - +180)
+private Wind apparentWind = new Wind();
 
     /* The following function counts apparent wind and returns its force and direction as following:
             >>wind from starboard: (+0 - +180)
@@ -36,8 +37,8 @@ public class WindIndicator {
         if (apparentWindDirectionCountingFromBow > 180)
             apparentWindDirectionCountingFromBow -= 360;
 
-        setSpeed(apparentWindSpeed);
-        setDirection(apparentWindDirectionCountingFromBow);
+        apparentWind.setSpeed(apparentWindSpeed);
+        apparentWind.setDirection(apparentWindDirectionCountingFromBow);
 
         return new Wind(apparentWindSpeed, apparentWindDirectionCountingFromBow);
     }

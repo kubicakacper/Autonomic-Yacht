@@ -126,7 +126,7 @@ public class Sail {
         double sailLength = getHeadHeight() - getFootHeight();
         setCurrentTwistAngle(toDegrees(atan2(sqrt(sheet.getCurrentLengthOverMin() * (2 * sailLength - sheet.getCurrentLengthOverMin())), car.getDistanceFromMast())));
         setCurrentHeadPosition(getCurrentTrimAngle(), getCurrentTwistAngle());
-        int approxAngleOfAttack = (int) round((abs(yacht.windIndicatorAtFoot.getDirection() + getCurrentTrimAngle())) * 0.75 + abs(abs(yacht.windIndicatorAtHead.getDirection() + getCurrentHeadPosition())) * 0.25);
+        int approxAngleOfAttack = (int) round((abs(yacht.windIndicatorAtFoot.getApparentWind().getDirection() + getCurrentTrimAngle())) * 0.75 + abs(abs(yacht.windIndicatorAtHead.getApparentWind().getDirection() + getCurrentHeadPosition())) * 0.25);
         if (approxAngleOfAttack > 90)
             approxAngleOfAttack = 180 - approxAngleOfAttack;
         if (approxAngleOfAttack < 0)

@@ -133,7 +133,7 @@ public class Yacht {
 
         windIndicatorAtFoot.measureWind(trueWind, this, sail.getFootHeight());
         windIndicatorAtHead.measureWind(trueWind, this, sail.getHeadHeight());
-        setCourseAgainstWind(windIndicatorAtFoot.getDirection() * 0.75 + windIndicatorAtHead.getDirection() * 0.25);
-        setSpeedAgainstWind(windIndicatorAtFoot.getSpeed() * 0.75 + windIndicatorAtHead.getSpeed() * 0.25);
+        setCourseAgainstWind(windIndicatorAtFoot.getApparentWind().getDirection() * 0.75 + windIndicatorAtHead.getApparentWind().getDirection() * 0.25);
+        setSpeedAgainstWind(windIndicatorAtFoot.getApparentWind().getSpeed() * 0.75 + windIndicatorAtHead.getApparentWind().getSpeed() * 0.25);
     }
 }
