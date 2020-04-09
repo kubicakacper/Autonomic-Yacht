@@ -31,6 +31,8 @@ public class Yacht {
     private double requiredCourseAzimuth;
     private double followedCourseAzimuth;
     private double currentCourseAzimuth;
+    private double thrustForce;
+    private double sideForce;
 
     public Yacht() {
         this.sail = new Sail();
@@ -133,7 +135,7 @@ public class Yacht {
 
         windIndicatorAtFoot.measureWind(trueWind, this, sail.getFootHeight());
         windIndicatorAtHead.measureWind(trueWind, this, sail.getHeadHeight());
-        setCourseAgainstWind(windIndicatorAtFoot.getApparentWind().getDirection() * 0.75 + windIndicatorAtHead.getApparentWind().getDirection() * 0.25);
+        setCourseAgainstWind(windIndicatorAtFoot.getApparentWind().getRelativeDirection() * 0.75 + windIndicatorAtHead.getApparentWind().getRelativeDirection() * 0.25);
         setSpeedAgainstWind(windIndicatorAtFoot.getApparentWind().getSpeed() * 0.75 + windIndicatorAtHead.getApparentWind().getSpeed() * 0.25);
     }
 }

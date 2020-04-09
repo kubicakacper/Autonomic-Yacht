@@ -19,7 +19,7 @@ public class WindTest {
 
     @Before
     public void before() {
-        trueWind = new Wind(random.nextDouble() * 20, random.nextInt(360));
+        trueWind = new Wind(random.nextDouble() * 20, random.nextInt(360), 0);
     }
 
     @Test
@@ -27,21 +27,22 @@ public class WindTest {
         //Given
         double height7 = 7;                                 //expected gradient: *1.6
         double heightRandom = random.nextDouble() * 16 + 15;  //expected gradient: [1.8, 2.0]
+        WindIndicator windIndicatorRandom = new WindIndicator();
         //When
-        Wind wind7 = windIndicator.measureWind(trueWind, yacht, height7);
-        Wind windRandom = windIndicator.measureWind(trueWind, yacht, heightRandom);
+        windIndicator.measureWind(trueWind, yacht, height7);
+        windIndicatorRandom.measureWind(trueWind, yacht, heightRandom);
         //Then
-        assertEquals(wind7.getSpeed(), trueWind.getSpeed() * 1.6, 0.01);
-        if (wind7.getDirection() > 0)
-            assertEquals(wind7.getDirection(), trueWind.getDirection(), 0.01);
+        assertEquals(windIndicator.getApparentWind().getSpeed(), trueWind.getSpeed() * 1.6, 0.01);
+        if (windIndicator.getApparentWind().getRelativeDirection() >= 0)
+            assertEquals(windIndicator.getApparentWind().getRelativeDirection(), trueWind.getAzimuthDirection(), 0.01);
         else
-            assertEquals(wind7.getDirection() + 360, trueWind.getDirection(), 0.01);
+            assertEquals(windIndicator.getApparentWind().getRelativeDirection() + 360, trueWind.getAzimuthDirection(), 0.01);
 
-        assertTrue(windRandom.getSpeed() > trueWind.getSpeed() * 1.8 && windRandom.getSpeed() < trueWind.getSpeed() * 2.0);
-        if (windRandom.getDirection() > 0)
-            assertEquals(windRandom.getDirection(), trueWind.getDirection(), 0.01);
+        assertTrue(windIndicatorRandom.getApparentWind().getSpeed() > trueWind.getSpeed() * 1.8 && windIndicatorRandom.getApparentWind().getSpeed() < trueWind.getSpeed() * 2.0);
+        if (windIndicatorRandom.getApparentWind().getRelativeDirection() >= 0)
+            assertEquals(windIndicatorRandom.getApparentWind().getRelativeDirection(), trueWind.getAzimuthDirection(), 0.01);
         else
-            assertEquals(windRandom.getDirection() + 360, trueWind.getDirection(), 0.01);
+            assertEquals(windIndicatorRandom.getApparentWind().getRelativeDirection() + 360, trueWind.getAzimuthDirection(), 0.01);
     }
 
 }

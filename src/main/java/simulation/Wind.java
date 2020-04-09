@@ -12,21 +12,31 @@ import static java.lang.Math.abs;
 public class Wind {
 
     private double speed;           //in m/s    //in case of true wind: speed at water level
-    private double direction;       //as azimuth, in degrees
+    private double azimuthDirection;       //as azimuth, in degrees
+    private double relativeDirection = 0;       //as azimuth, in degrees
 
     public void setSpeed(double speed) {
         if (speed < 0) {
             speed = abs(speed);
-            setDirection(getDirection() + 180);   //tu pewnie null ppointer bo nie ma Direction jeszcze przy konstruktorze
+            setAzimuthDirection(getAzimuthDirection() + 180);
+            setRelativeDirection(getRelativeDirection() + 180);
         }
         this.speed = speed;
     }
 
-    public void setDirection(double direction) {
+    public void setAzimuthDirection(double direction) {
         while (direction < 0)
             direction += 360;
         while (direction >= 360)
             direction -= 360;
-        this.direction = direction;
+        this.azimuthDirection = direction;
+    }
+
+    public void setRelativeDirection(double direction) {
+        while (direction < -180)
+            direction += 360;
+        while (direction > 180)
+            direction -= 360;
+        this.relativeDirection = direction;
     }
 }

@@ -21,10 +21,10 @@ public class TackAndGybeTest {
     @Test
     public void should_stay_on_port_when_wind_is_60() {
         //Given
-        trueWind.setDirection(60);
+        trueWind.setAzimuthDirection(60);
         yacht.sail.setCurrentStateOfSail(StatesOfSail.PORT);
         //When
-        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection(), yacht.sail);
+        yacht.sail.sailController.countRequiredTrim(trueWind.getAzimuthDirection(), yacht.sail);
         //Then
         assertSame(yacht.sail.getCurrentStateOfSail(), StatesOfSail.PORT);
     }
@@ -32,10 +32,10 @@ public class TackAndGybeTest {
     @Test
     public void should_stay_on_starboard_when_sind_is_300() {
         //Given
-        trueWind.setDirection(300);
+        trueWind.setAzimuthDirection(300);
         yacht.sail.setCurrentStateOfSail(StatesOfSail.STARBOARD);
         //When
-        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection(), yacht.sail);
+        yacht.sail.sailController.countRequiredTrim(trueWind.getAzimuthDirection(), yacht.sail);
         //Then
         assertSame(yacht.sail.getCurrentStateOfSail(), StatesOfSail.STARBOARD);
     }
@@ -43,10 +43,10 @@ public class TackAndGybeTest {
     @Test
     public void should_change_to_starboard_when_wind_is_300() {
         //Given
-        trueWind.setDirection(300);
+        trueWind.setAzimuthDirection(300);
         yacht.sail.setCurrentStateOfSail(StatesOfSail.PORT);
         //When
-        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection(), yacht.sail);
+        yacht.sail.sailController.countRequiredTrim(trueWind.getAzimuthDirection(), yacht.sail);
         //Then
         assertSame(yacht.sail.getCurrentStateOfSail(), StatesOfSail.TO_STARBOARD);
     }
@@ -54,10 +54,10 @@ public class TackAndGybeTest {
     @Test
     public void should_change_to_port_when_wind_is_60() {
         //Given
-        trueWind.setDirection(60);
+        trueWind.setAzimuthDirection(60);
         yacht.sail.setCurrentStateOfSail(StatesOfSail.STARBOARD);
         //When
-        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection(), yacht.sail);
+        yacht.sail.sailController.countRequiredTrim(trueWind.getAzimuthDirection(), yacht.sail);
         //Then
         assertSame(yacht.sail.getCurrentStateOfSail(), StatesOfSail.TO_PORT);
     }
@@ -68,7 +68,7 @@ public class TackAndGybeTest {
         yacht.sail.car.setCurrentPositionInDegrees(5);
         yacht.sail.setCurrentStateOfSail(StatesOfSail.TO_STARBOARD);
         //When
-        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection(), yacht.sail);
+        yacht.sail.sailController.countRequiredTrim(trueWind.getAzimuthDirection(), yacht.sail);
         //Then
         assertSame(yacht.sail.getCurrentStateOfSail(), StatesOfSail.TO_STARBOARD);
     }
@@ -79,7 +79,7 @@ public class TackAndGybeTest {
         yacht.sail.car.setCurrentPositionInDegrees(-50);
         yacht.sail.setCurrentStateOfSail(StatesOfSail.TO_PORT);
         //When
-        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection(), yacht.sail);
+        yacht.sail.sailController.countRequiredTrim(trueWind.getAzimuthDirection(), yacht.sail);
         //Then
         assertSame(yacht.sail.getCurrentStateOfSail(), StatesOfSail.TO_PORT);
     }
@@ -90,7 +90,7 @@ public class TackAndGybeTest {
         yacht.sail.car.setCurrentPositionInDegrees(-15);
         yacht.sail.setCurrentStateOfSail(StatesOfSail.TO_STARBOARD);
         //When
-        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection(), yacht.sail);
+        yacht.sail.sailController.countRequiredTrim(trueWind.getAzimuthDirection(), yacht.sail);
         //Then
         assertSame(yacht.sail.getCurrentStateOfSail(), StatesOfSail.STARBOARD);
     }
@@ -101,7 +101,7 @@ public class TackAndGybeTest {
         yacht.sail.car.setCurrentPositionInDegrees(15);
         yacht.sail.setCurrentStateOfSail(StatesOfSail.TO_PORT);
         //When
-        yacht.sail.sailController.countRequiredTrim(trueWind.getDirection(), yacht.sail);
+        yacht.sail.sailController.countRequiredTrim(trueWind.getAzimuthDirection(), yacht.sail);
         //Then
         assertSame(yacht.sail.getCurrentStateOfSail(), StatesOfSail.PORT);
     }

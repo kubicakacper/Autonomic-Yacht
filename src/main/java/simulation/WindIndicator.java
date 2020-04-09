@@ -24,9 +24,9 @@ private Wind apparentWind = new Wind();
             >>wind from starboard: (+0 - +180)
             >>wind from port: (-0 - -180) degrees
          */
-    public Wind measureWind(Wind trueWind, Yacht yacht, double height) {
+    public void measureWind(Wind trueWind, Yacht yacht, double height) {
         double windSpeed = trueWind.getSpeed() * Simulation.windGradient(height);
-        double angleBetweenVectorsInDegrees = abs(trueWind.getDirection() - yacht.getCurrentCourseAzimuth());    // yachtDirection == inducedWindDirection
+        double angleBetweenVectorsInDegrees = abs(trueWind.getAzimuthDirection() - yacht.getCurrentCourseAzimuth());    // yachtDirection == inducedWindDirection
         double apparentWindSpeed = sqrt(pow(windSpeed, 2) + pow(yacht.getVelocity(), 2) + 2 * windSpeed * yacht.getVelocity() * cos(toRadians(angleBetweenVectorsInDegrees)));
         double apparentWindDirectionCountingFromBow = toDegrees(atan2(windSpeed * sin(toRadians(angleBetweenVectorsInDegrees)),
                 yacht.getVelocity() + windSpeed * cos(toRadians(angleBetweenVectorsInDegrees))));
@@ -34,12 +34,8 @@ private Wind apparentWind = new Wind();
             apparentWindSpeed *= -1;
             apparentWindDirectionCountingFromBow += 180;
         }
-        if (apparentWindDirectionCountingFromBow > 180)
-            apparentWindDirectionCountingFromBow -= 360;
 
         apparentWind.setSpeed(apparentWindSpeed);
-        apparentWind.setDirection(apparentWindDirectionCountingFromBow);
-
-        return new Wind(apparentWindSpeed, apparentWindDirectionCountingFromBow);
+        apparentWind.setRelativeDirection(apparentWindDirectionCountingFromBow);
     }
 }

@@ -121,20 +121,20 @@ public class Sail {
         this.currentHeadPosition = abs(currentTrimAngle) + currentTwistAngle;
     }
 
-    public double countThrustForce(Yacht yacht) {
+    public void countThrustForce(Yacht yacht) {
         setCurrentTrimAngle(car.getCurrentPositionInDegrees());   //left: "-"; right: "+".
         double sailLength = getHeadHeight() - getFootHeight();
         setCurrentTwistAngle(toDegrees(atan2(sqrt(sheet.getCurrentLengthOverMin() * (2 * sailLength - sheet.getCurrentLengthOverMin())), car.getDistanceFromMast())));
         setCurrentHeadPosition(getCurrentTrimAngle(), getCurrentTwistAngle());
-        int approxAngleOfAttack = (int) round((abs(yacht.windIndicatorAtFoot.getApparentWind().getDirection() + getCurrentTrimAngle())) * 0.75 + abs(abs(yacht.windIndicatorAtHead.getApparentWind().getDirection() + getCurrentHeadPosition())) * 0.25);
+        int approxAngleOfAttack = (int) round((abs(yacht.windIndicatorAtFoot.getApparentWind().getRelativeDirection() + getCurrentTrimAngle())) * 0.75 + abs(abs(yacht.windIndicatorAtHead.getApparentWind().getRelativeDirection() + getCurrentHeadPosition())) * 0.25);
         if (approxAngleOfAttack > 90)
             approxAngleOfAttack = 180 - approxAngleOfAttack;
         if (approxAngleOfAttack < 0)
             approxAngleOfAttack = 0;
         double liftCoefficient = liftCoefficientArray[approxAngleOfAttack];
         double dragCoefficient = dragCoefficientArray[approxAngleOfAttack];
-        return 0.5 * Simulation.airDensity * getArea() * pow(yacht.getSpeedAgainstWind(), 2)
-                * (sin(toRadians(yacht.getCourseAgainstWind())) * liftCoefficient - cos(toRadians(yacht.getCourseAgainstWind())) * dragCoefficient);
+        yacht.setThrustForce(0.5 * Simulation.airDensity * getArea() * pow(yacht.getSpeedAgainstWind(), 2)
+                * (sin(toRadians(yacht.getCourseAgainstWind())) * liftCoefficient - cos(toRadians(yacht.getCourseAgainstWind())) * dragCoefficient));
     }
 
 

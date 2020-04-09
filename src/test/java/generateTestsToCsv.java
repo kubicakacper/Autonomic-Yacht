@@ -52,7 +52,7 @@ public class generateTestsToCsv {
     @Test
     public void show_apparent_wind_45() {
         //Given
-        trueWind.setDirection(45);
+        trueWind.setAzimuthDirection(45);
         String filepath = "outputData\\show_apparent_wind_45.csv";
         WriteData writeData = new WriteData(new String[]{"SOG", "TWS", "AWS at foot", "AWS at head", "TWA", "AWA at foot", "AWA at head"});
         //When
@@ -62,7 +62,7 @@ public class generateTestsToCsv {
             yacht.setVelocity((double) i / 10);
             data = new double[]{yacht.getVelocity(),
                     trueWind.getSpeed(), yacht.windIndicatorAtFoot.getApparentWind().getSpeed(), yacht.windIndicatorAtHead.getApparentWind().getSpeed(),
-                    trueWind.getDirection(), yacht.windIndicatorAtFoot.getApparentWind().getDirection(), yacht.windIndicatorAtHead.getApparentWind().getDirection()};
+                    trueWind.getAzimuthDirection(), yacht.windIndicatorAtFoot.getApparentWind().getRelativeDirection(), yacht.windIndicatorAtHead.getApparentWind().getRelativeDirection()};
             writeData.addLine(data);
             try {
                 Files.deleteIfExists(Paths.get(filepath));
@@ -78,7 +78,7 @@ public class generateTestsToCsv {
     @Test
     public void show_apparent_wind_150() {
         //Given
-        trueWind.setDirection(150);
+        trueWind.setAzimuthDirection(150);
         String filepath = "outputData\\show_apparent_wind_150.csv";
         WriteData writeData = new WriteData(new String[]{"SOG", "TWS", "AWS at foot", "AWS at head", "TWA", "AWA at foot", "AWA at head"});
         //When
@@ -88,7 +88,7 @@ public class generateTestsToCsv {
             yacht.setVelocity((double) i / 10);
             data = new double[]{yacht.getVelocity(),
                     trueWind.getSpeed(), yacht.windIndicatorAtFoot.getApparentWind().getSpeed(), yacht.windIndicatorAtHead.getApparentWind().getSpeed(),
-                    trueWind.getDirection(), yacht.windIndicatorAtFoot.getApparentWind().getDirection(), yacht.windIndicatorAtHead.getApparentWind().getDirection()};
+                    trueWind.getAzimuthDirection(), yacht.windIndicatorAtFoot.getApparentWind().getRelativeDirection(), yacht.windIndicatorAtHead.getApparentWind().getRelativeDirection()};
             writeData.addLine(data);
             try {
                 Files.deleteIfExists(Paths.get(filepath));
@@ -104,12 +104,12 @@ public class generateTestsToCsv {
     @Test
     public void keep_close_to_wind() {
         //Given
-        trueWind.setDirection(45);
+        trueWind.setAzimuthDirection(45);
         String filepath = "outputData\\keep_close_to_wind.csv";
         WriteData writeData = new WriteData(new String[]{"time", "TWS", "TWA", "SOG", "set COG", "actual COG", "sail trim", "sail twist", "rudder"});
         //When
         for (int i = 0; i <= 20; i++) {
-            data = new double[]{i, trueWind.getSpeed(), trueWind.getDirection(),
+            data = new double[]{i, trueWind.getSpeed(), trueWind.getAzimuthDirection(),
                     yacht.getVelocity(), yacht.getRequiredCourseAzimuth(), yacht.getCurrentCourseAzimuth(),
                     yacht.sail.getCurrentTrimAngle(), yacht.sail.getCurrentTwistAngle(), yacht.rudder.getCurrentAngle()};
             writeData.addLine(data);
@@ -128,12 +128,12 @@ public class generateTestsToCsv {
     @Test
     public void keep_in_the_beam() {
         //Given
-        trueWind.setDirection(90);
+        trueWind.setAzimuthDirection(90);
         String filepath = "outputData\\keep_in_the_beam.csv";
         WriteData writeData = new WriteData(new String[]{"time", "TWS", "TWA", "SOG", "set COG", "actual COG", "sail trim", "sail twist", "rudder"});
         //When
         for (int i = 0; i <= 20; i++) {
-            data = new double[]{i, trueWind.getSpeed(), trueWind.getDirection(),
+            data = new double[]{i, trueWind.getSpeed(), trueWind.getAzimuthDirection(),
                     yacht.getVelocity(), yacht.getRequiredCourseAzimuth(), yacht.getCurrentCourseAzimuth(),
                     yacht.sail.getCurrentTrimAngle(), yacht.sail.getCurrentTwistAngle(), yacht.rudder.getCurrentAngle()};
             writeData.addLine(data);
@@ -152,12 +152,12 @@ public class generateTestsToCsv {
     @Test
     public void keep_in_the_quarter() {
         //Given
-        trueWind.setDirection(135);
+        trueWind.setAzimuthDirection(135);
         String filepath = "outputData\\keep_in_the_quarter.csv";
         WriteData writeData = new WriteData(new String[]{"time", "TWS", "TWA", "SOG", "set COG", "actual COG", "sail trim", "sail twist", "rudder"});
         //When
         for (int i = 0; i <= 20; i++) {
-            data = new double[]{i, trueWind.getSpeed(), trueWind.getDirection(),
+            data = new double[]{i, trueWind.getSpeed(), trueWind.getAzimuthDirection(),
                     yacht.getVelocity(), yacht.getRequiredCourseAzimuth(), yacht.getCurrentCourseAzimuth(),
                     yacht.sail.getCurrentTrimAngle(), yacht.sail.getCurrentTwistAngle(), yacht.rudder.getCurrentAngle()};
             writeData.addLine(data);
@@ -176,12 +176,12 @@ public class generateTestsToCsv {
     @Test
     public void keep_in_the_run() {
         //Given
-        trueWind.setDirection(180);
+        trueWind.setAzimuthDirection(180);
         String filepath = "outputData\\keep_in_the_run.csv";
         WriteData writeData = new WriteData(new String[]{"time", "TWS", "TWA", "SOG", "set COG", "actual COG", "sail trim", "sail twist", "rudder"});
         //When
         for (int i = 0; i <= 20; i++) {
-            data = new double[]{i, trueWind.getSpeed(), trueWind.getDirection(),
+            data = new double[]{i, trueWind.getSpeed(), trueWind.getAzimuthDirection(),
                     yacht.getVelocity(), yacht.getRequiredCourseAzimuth(), yacht.getCurrentCourseAzimuth(),
                     yacht.sail.getCurrentTrimAngle(), yacht.sail.getCurrentTwistAngle(), yacht.rudder.getCurrentAngle()};
             writeData.addLine(data);
@@ -202,14 +202,14 @@ public class generateTestsToCsv {
         //Given
         yacht.setVelocity(2);
         yacht.setCurrentCourseAzimuth(45);
-        yacht.setRequiredCourseAzimuth(45, trueWind.getDirection());
+        yacht.setRequiredCourseAzimuth(45, trueWind.getAzimuthDirection());
         String filepath = "outputData\\change_COG_const_wind_45to150.csv";
         WriteData writeData = new WriteData(new String[]{"time", "TWS", "TWA", "SOG", "set COG", "actual COG", "sail trim", "sail twist", "rudder"});
         //When
         for (int i = 0; i <= 60; i++) {
             if (i == 10)
-                yacht.setRequiredCourseAzimuth(150, trueWind.getDirection());
-            data = new double[]{i, trueWind.getSpeed(), trueWind.getDirection(),
+                yacht.setRequiredCourseAzimuth(150, trueWind.getAzimuthDirection());
+            data = new double[]{i, trueWind.getSpeed(), trueWind.getAzimuthDirection(),
                     yacht.getVelocity(), yacht.getRequiredCourseAzimuth(), yacht.getCurrentCourseAzimuth(),
                     yacht.sail.getCurrentTrimAngle(), yacht.sail.getCurrentTwistAngle(), yacht.rudder.getCurrentAngle()};
             writeData.addLine(data);
@@ -229,14 +229,14 @@ public class generateTestsToCsv {
         //Given
         yacht.setVelocity(2);
         yacht.setCurrentCourseAzimuth(150);
-        yacht.setRequiredCourseAzimuth(150, trueWind.getDirection());
+        yacht.setRequiredCourseAzimuth(150, trueWind.getAzimuthDirection());
         String filepath = "outputData\\change_COG_const_wind_150to45.csv";
         WriteData writeData = new WriteData(new String[]{"time", "TWS", "TWA", "SOG", "set COG", "actual COG", "sail trim", "sail twist", "rudder"});
         //When
         for (int i = 0; i <= 60; i++) {
             if (i == 10)
-                yacht.setRequiredCourseAzimuth(45, trueWind.getDirection());
-            data = new double[]{i, trueWind.getSpeed(), trueWind.getDirection(),
+                yacht.setRequiredCourseAzimuth(45, trueWind.getAzimuthDirection());
+            data = new double[]{i, trueWind.getSpeed(), trueWind.getAzimuthDirection(),
                     yacht.getVelocity(), yacht.getRequiredCourseAzimuth(), yacht.getCurrentCourseAzimuth(),
                     yacht.sail.getCurrentTrimAngle(), yacht.sail.getCurrentTwistAngle(), yacht.rudder.getCurrentAngle()};
             writeData.addLine(data);
@@ -256,14 +256,14 @@ public class generateTestsToCsv {
         //Given
         yacht.setVelocity(2);
         yacht.setCurrentCourseAzimuth(45);
-        yacht.setRequiredCourseAzimuth(45, trueWind.getDirection());
+        yacht.setRequiredCourseAzimuth(45, trueWind.getAzimuthDirection());
         String filepath = "outputData\\change_COG_const_wind_doTack.csv";
         WriteData writeData = new WriteData(new String[]{"time", "TWS", "TWA", "SOG", "set COG", "actual COG", "sail trim", "sail twist", "rudder"});
         //When
         for (int i = 0; i <= 60; i++) {
             if (i == 10)
-                yacht.setRequiredCourseAzimuth(315, trueWind.getDirection());
-            data = new double[]{i, trueWind.getSpeed(), trueWind.getDirection(),
+                yacht.setRequiredCourseAzimuth(315, trueWind.getAzimuthDirection());
+            data = new double[]{i, trueWind.getSpeed(), trueWind.getAzimuthDirection(),
                     yacht.getVelocity(), yacht.getRequiredCourseAzimuth(), yacht.getCurrentCourseAzimuth(),
                     yacht.sail.getCurrentTrimAngle(), yacht.sail.getCurrentTwistAngle(), yacht.rudder.getCurrentAngle()};
             writeData.addLine(data);
@@ -283,14 +283,14 @@ public class generateTestsToCsv {
         //Given
         yacht.setVelocity(2);
         yacht.setCurrentCourseAzimuth(150);
-        yacht.setRequiredCourseAzimuth(150, trueWind.getDirection());
+        yacht.setRequiredCourseAzimuth(150, trueWind.getAzimuthDirection());
         String filepath = "outputData\\change_COG_const_wind_doGybe.csv";
         WriteData writeData = new WriteData(new String[]{"time", "TWS", "TWA", "SOG", "set COG", "actual COG", "sail trim", "sail twist", "rudder"});
         //When
         for (int i = 0; i <= 60; i++) {
             if (i == 10)
-                yacht.setRequiredCourseAzimuth(210, trueWind.getDirection());
-            data = new double[]{i, trueWind.getSpeed(), trueWind.getDirection(),
+                yacht.setRequiredCourseAzimuth(210, trueWind.getAzimuthDirection());
+            data = new double[]{i, trueWind.getSpeed(), trueWind.getAzimuthDirection(),
                     yacht.getVelocity(), yacht.getRequiredCourseAzimuth(), yacht.getCurrentCourseAzimuth(),
                     yacht.sail.getCurrentTrimAngle(), yacht.sail.getCurrentTwistAngle(), yacht.rudder.getCurrentAngle()};
             writeData.addLine(data);
@@ -310,14 +310,14 @@ public class generateTestsToCsv {
         //Given
         yacht.setVelocity(2);
         yacht.setCurrentCourseAzimuth(60);
-        yacht.setRequiredCourseAzimuth(60, trueWind.getDirection());
+        yacht.setRequiredCourseAzimuth(60, trueWind.getAzimuthDirection());
         String filepath = "outputData\\requiredCOG_inIrons_startCOG60_startSOG2.csv";
         WriteData writeData = new WriteData(new String[]{"time", "TWS", "TWA", "SOG", "set COG", "actual COG", "sail trim", "sail twist", "rudder"});
         //When
         for (int i = 0; i <= 60; i++) {
             if (i == 10)
-                yacht.setRequiredCourseAzimuth(10, trueWind.getDirection());
-            data = new double[]{i, trueWind.getSpeed(), trueWind.getDirection(),
+                yacht.setRequiredCourseAzimuth(10, trueWind.getAzimuthDirection());
+            data = new double[]{i, trueWind.getSpeed(), trueWind.getAzimuthDirection(),
                     yacht.getVelocity(), yacht.getRequiredCourseAzimuth(), yacht.getCurrentCourseAzimuth(),
                     yacht.sail.getCurrentTrimAngle(), yacht.sail.getCurrentTwistAngle(), yacht.rudder.getCurrentAngle()};
             writeData.addLine(data);
@@ -337,14 +337,14 @@ public class generateTestsToCsv {
         //Given
         yacht.setVelocity(2);
         yacht.setCurrentCourseAzimuth(60);
-        yacht.setRequiredCourseAzimuth(60, trueWind.getDirection());
+        yacht.setRequiredCourseAzimuth(60, trueWind.getAzimuthDirection());
         String filepath = "outputData\\requiredCOG_inIrons_startCOG60_startSOG2_doTack.csv";
         WriteData writeData = new WriteData(new String[]{"time", "TWS", "TWA", "SOG", "set COG", "actual COG", "sail trim", "sail twist", "rudder"});
         //When
         for (int i = 0; i <= 60; i++) {
             if (i == 10)
-                yacht.setRequiredCourseAzimuth(350, trueWind.getDirection());
-            data = new double[]{i, trueWind.getSpeed(), trueWind.getDirection(),
+                yacht.setRequiredCourseAzimuth(350, trueWind.getAzimuthDirection());
+            data = new double[]{i, trueWind.getSpeed(), trueWind.getAzimuthDirection(),
                     yacht.getVelocity(), yacht.getRequiredCourseAzimuth(), yacht.getCurrentCourseAzimuth(),
                     yacht.sail.getCurrentTrimAngle(), yacht.sail.getCurrentTwistAngle(), yacht.rudder.getCurrentAngle()};
             writeData.addLine(data);
@@ -364,12 +364,12 @@ public class generateTestsToCsv {
         //Given
         yacht.setVelocity(2);
         yacht.setCurrentCourseAzimuth(0);
-        yacht.setRequiredCourseAzimuth(0, trueWind.getDirection());
+        yacht.setRequiredCourseAzimuth(0, trueWind.getAzimuthDirection());
         String filepath = "outputData\\requiredCOG_inIrons_startCOG0_startSOG2.csv";
         WriteData writeData = new WriteData(new String[]{"time", "TWS", "TWA", "SOG", "set COG", "actual COG", "sail trim", "sail twist", "rudder"});
         //When
         for (int i = 0; i <= 60; i++) {
-            data = new double[]{i, trueWind.getSpeed(), trueWind.getDirection(),
+            data = new double[]{i, trueWind.getSpeed(), trueWind.getAzimuthDirection(),
                     yacht.getVelocity(), yacht.getRequiredCourseAzimuth(), yacht.getCurrentCourseAzimuth(),
                     yacht.sail.getCurrentTrimAngle(), yacht.sail.getCurrentTwistAngle(), yacht.rudder.getCurrentAngle()};
             writeData.addLine(data);
@@ -389,12 +389,12 @@ public class generateTestsToCsv {
         //Given
         yacht.setVelocity(0);
         yacht.setCurrentCourseAzimuth(0);
-        yacht.setRequiredCourseAzimuth(0, trueWind.getDirection());
+        yacht.setRequiredCourseAzimuth(0, trueWind.getAzimuthDirection());
         String filepath = "outputData\\requiredCOG_inIrons_startCOG0_startSOG0.csv";
         WriteData writeData = new WriteData(new String[]{"time", "TWS", "TWA", "SOG", "set COG", "actual COG", "sail trim", "sail twist", "rudder"});
         //When
         for (int i = 0; i <= 60; i++) {
-            data = new double[]{i, trueWind.getSpeed(), trueWind.getDirection(),
+            data = new double[]{i, trueWind.getSpeed(), trueWind.getAzimuthDirection(),
                     yacht.getVelocity(), yacht.getRequiredCourseAzimuth(), yacht.getCurrentCourseAzimuth(),
                     yacht.sail.getCurrentTrimAngle(), yacht.sail.getCurrentTwistAngle(), yacht.rudder.getCurrentAngle()};
             writeData.addLine(data);
@@ -412,14 +412,14 @@ public class generateTestsToCsv {
     @Test
     public void const_COG_changingWindDirection() {
         //Given
-        trueWind.setDirection(random.nextInt(360));
+        trueWind.setAzimuthDirection(random.nextInt(360));
         yacht.setCurrentCourseAzimuth(0);
-        yacht.setRequiredCourseAzimuth(0, trueWind.getDirection());
+        yacht.setRequiredCourseAzimuth(0, trueWind.getAzimuthDirection());
         String filepath = "outputData\\const_COG_changingWindDirection.csv";
         WriteData writeData = new WriteData(new String[]{"time", "TWS", "TWA", "SOG", "set COG", "actual COG", "sail trim", "sail twist", "rudder"});
         //When
         for (int i = 0; i <= 300; i++) {
-            data = new double[]{i, trueWind.getSpeed(), trueWind.getDirection(),
+            data = new double[]{i, trueWind.getSpeed(), trueWind.getAzimuthDirection(),
                     yacht.getVelocity(), yacht.getRequiredCourseAzimuth(), yacht.getCurrentCourseAzimuth(),
                     yacht.sail.getCurrentTrimAngle(), yacht.sail.getCurrentTwistAngle(), yacht.rudder.getCurrentAngle()};
             writeData.addLine(data);
@@ -431,7 +431,7 @@ public class generateTestsToCsv {
                 System.exit(1);
             }
             for (int j = 0; j < 1 / Simulation.samplingPeriod; j++) {
-                trueWind.setDirection(trueWind.getDirection() + (random.nextDouble() - 0.5) * 2);
+                trueWind.setAzimuthDirection(trueWind.getAzimuthDirection() + (random.nextDouble() - 0.5) * 2);
                 simulation.goSample(yacht, trueWind);
             }
         }
@@ -441,14 +441,14 @@ public class generateTestsToCsv {
     public void const_COG_changingWindSpeed() {
         //Given
         trueWind.setSpeed(random.nextDouble() * 4 + 3);
-        trueWind.setDirection(90);
+        trueWind.setAzimuthDirection(90);
         yacht.setCurrentCourseAzimuth(0);
-        yacht.setRequiredCourseAzimuth(0, trueWind.getDirection());
+        yacht.setRequiredCourseAzimuth(0, trueWind.getAzimuthDirection());
         String filepath = "outputData\\const_COG_changingWindSpeed.csv";
         WriteData writeData = new WriteData(new String[]{"time", "TWS", "TWA", "SOG", "set COG", "actual COG", "sail trim", "sail twist", "rudder"});
         //When
         for (int i = 0; i <= 300; i++) {
-            data = new double[]{i, trueWind.getSpeed(), trueWind.getDirection(),
+            data = new double[]{i, trueWind.getSpeed(), trueWind.getAzimuthDirection(),
                     yacht.getVelocity(), yacht.getRequiredCourseAzimuth(), yacht.getCurrentCourseAzimuth(),
                     yacht.sail.getCurrentTrimAngle(), yacht.sail.getCurrentTwistAngle(), yacht.rudder.getCurrentAngle()};
             writeData.addLine(data);
@@ -470,14 +470,14 @@ public class generateTestsToCsv {
     public void const_COG_changingWind() {
         //Given
         trueWind.setSpeed(random.nextDouble() * 4 + 3);
-        trueWind.setDirection(random.nextInt(360));
+        trueWind.setAzimuthDirection(random.nextInt(360));
         yacht.setCurrentCourseAzimuth(0);
-        yacht.setRequiredCourseAzimuth(0, trueWind.getDirection());
+        yacht.setRequiredCourseAzimuth(0, trueWind.getAzimuthDirection());
         String filepath = "outputData\\const_COG_changingWind.csv";
         WriteData writeData = new WriteData(new String[]{"time", "TWS", "TWA", "SOG", "set COG", "actual COG", "sail trim", "sail twist", "rudder"});
         //When
         for (int i = 0; i <= 300; i++) {
-            data = new double[]{i, trueWind.getSpeed(), trueWind.getDirection(),
+            data = new double[]{i, trueWind.getSpeed(), trueWind.getAzimuthDirection(),
                     yacht.getVelocity(), yacht.getRequiredCourseAzimuth(), yacht.getCurrentCourseAzimuth(),
                     yacht.sail.getCurrentTrimAngle(), yacht.sail.getCurrentTwistAngle(), yacht.rudder.getCurrentAngle()};
             writeData.addLine(data);
@@ -490,7 +490,7 @@ public class generateTestsToCsv {
             }
             for (int j = 0; j < 1 / Simulation.samplingPeriod; j++) {
                 trueWind.setSpeed(trueWind.getSpeed() + (random.nextDouble() - 0.5) * 0.25);
-                trueWind.setDirection(trueWind.getDirection() + (random.nextDouble() - 0.5) * 2);
+                trueWind.setAzimuthDirection(trueWind.getAzimuthDirection() + (random.nextDouble() - 0.5) * 2);
                 simulation.goSample(yacht, trueWind);
             }
         }
@@ -500,13 +500,13 @@ public class generateTestsToCsv {
     public void changing_COG_changingWind() {
         //Given
         trueWind.setSpeed(random.nextDouble() * 4 + 3);
-        trueWind.setDirection(random.nextInt(360));
+        trueWind.setAzimuthDirection(random.nextInt(360));
         yacht.setCurrentCourseAzimuth(0);
-        yacht.setRequiredCourseAzimuth(0, trueWind.getDirection());
+        yacht.setRequiredCourseAzimuth(0, trueWind.getAzimuthDirection());
         String filepath = "outputData\\changing_COG_changingWind.csv";
         WriteData writeData = new WriteData(new String[]{"time", "TWS", "TWA", "SOG", "set COG", "actual COG", "sail trim", "sail twist", "rudder"});
         for (int i = 0; i <= 300; i++) {
-            data = new double[]{i, trueWind.getSpeed(), trueWind.getDirection(),
+            data = new double[]{i, trueWind.getSpeed(), trueWind.getAzimuthDirection(),
                     yacht.getVelocity(), yacht.getRequiredCourseAzimuth(), yacht.getCurrentCourseAzimuth(),
                     yacht.sail.getCurrentTrimAngle(), yacht.sail.getCurrentTwistAngle(), yacht.rudder.getCurrentAngle()};
             writeData.addLine(data);
@@ -518,10 +518,10 @@ public class generateTestsToCsv {
                 System.exit(1);
             }
             if (i % 60 == 0)
-                yacht.setRequiredCourseAzimuth(random.nextInt(360), trueWind.getDirection());
+                yacht.setRequiredCourseAzimuth(random.nextInt(360), trueWind.getAzimuthDirection());
             for (int j = 0; j < 1 / Simulation.samplingPeriod; j++) {
                 trueWind.setSpeed(trueWind.getSpeed() + (random.nextDouble() - 0.5) * 0.25);
-                trueWind.setDirection(trueWind.getDirection() + (random.nextDouble() - 0.5) * 2);
+                trueWind.setAzimuthDirection(trueWind.getAzimuthDirection() + (random.nextDouble() - 0.5) * 2);
                 simulation.goSample(yacht, trueWind);
             }
         }

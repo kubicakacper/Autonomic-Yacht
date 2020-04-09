@@ -24,13 +24,13 @@ public class generalTest {
     @Test
     public void should_change_trim_correctly_when_set_trueWind_and_courseAzimuth() {
         for (int i = 0; i < 6000; i++) { //1 minute
-            Wind apparentWindAtFoot = yacht.windIndicatorAtFoot.measureWind(trueWind, yacht, yacht.sail.getFootHeight());
-            yacht.sail.sailController.countControlValueAtFoot(apparentWindAtFoot.getDirection(), yacht.sail);
+            yacht.windIndicatorAtFoot.measureWind(trueWind, yacht, yacht.sail.getFootHeight());
+            yacht.sail.sailController.countControlValueAtFoot(yacht.windIndicatorAtFoot.getApparentWind().getRelativeDirection(), yacht.sail);
             yacht.sail.carEngineController.setStateOfEngine(yacht.sail.sailController.getCurrentControlValueAtFoot(), yacht.sail.getCurrentStateOfSail());
             yacht.sail.carEngine.setCurrentVelocity(yacht.sail.carEngineController.getCurrentStateOfEngine());
             yacht.sail.car.countPositionInDegrees(yacht.sail.carEngine.getCurrentVelocity());
-            double thrustForce = yacht.sail.countThrustForce(yacht);
-            yacht.process(thrustForce, 0, trueWind);
+            yacht.sail.countThrustForce(yacht);
+            yacht.process(yacht.getThrustForce(), 0, trueWind);
 
             if (i % 10 == 9) {
                 System.out.print("yacht.velocity: ");
@@ -42,24 +42,24 @@ public class generalTest {
     @Test
     public void should_change_twist_correctly_when_set_trueWind_and_courseAzimuth() {
         for (int i = 0; i < 600; i++) { //1 minute
-            Wind apparentWindAtFoot = yacht.windIndicatorAtFoot.measureWind(trueWind, yacht, yacht.sail.getFootHeight());
-            yacht.sail.sailController.countControlValueAtFoot(apparentWindAtFoot.getDirection(), yacht.sail);
+            yacht.windIndicatorAtFoot.measureWind(trueWind, yacht, yacht.sail.getFootHeight());
+            yacht.sail.sailController.countControlValueAtFoot(yacht.windIndicatorAtFoot.getApparentWind().getRelativeDirection(), yacht.sail);
             yacht.sail.carEngineController.setStateOfEngine(yacht.sail.sailController.getCurrentControlValueAtFoot(), yacht.sail.getCurrentStateOfSail());
             yacht.sail.carEngine.setCurrentVelocity(yacht.sail.carEngineController.getCurrentStateOfEngine());
             yacht.sail.car.countPositionInDegrees(yacht.sail.carEngine.getCurrentVelocity());
 
-            Wind apparentWindAtHead = yacht.windIndicatorAtHead.measureWind(trueWind, yacht, yacht.sail.getHeadHeight());
-            yacht.sail.sailController.countControlValueAtHead(apparentWindAtHead.getDirection(), yacht.sail);
+            yacht.windIndicatorAtHead.measureWind(trueWind, yacht, yacht.sail.getHeadHeight());
+            yacht.sail.sailController.countControlValueAtHead(yacht.windIndicatorAtHead.getApparentWind().getRelativeDirection(), yacht.sail);
             yacht.sail.sheetEngineController.setStateOfEngine(yacht.sail.sailController.getCurrentControlValueAtHead());
             yacht.sail.sheetEngine.setCurrentVelocity(yacht.sail.sheetEngineController.getCurrentStateOfEngine());
             yacht.sail.sheet.countLengthOverMin(yacht.sail.sheetEngine.getCurrentVelocity());
 
-            double thrustForce = yacht.sail.countThrustForce(yacht);
-            yacht.process(thrustForce, 0, trueWind);
+            yacht.sail.countThrustForce(yacht);
+            yacht.process(yacht.getThrustForce(), 0, trueWind);
 
             if (i % 10 == 9) {
                 System.out.print("apparentWindAtFoot: ");
-                System.out.println(apparentWindAtFoot.toString());
+//                System.out.println(apparentWindAtFoot.toString());
                 System.out.print("yacht.sail.sailController.controlValueAtFoot: ");
                 System.out.println(yacht.sail.sailController.getCurrentControlValueAtFoot());
                 System.out.print("yacht.sail.carEngineController.currentStateOfCarEngine: ");
@@ -69,7 +69,7 @@ public class generalTest {
                 System.out.print("car position in degrees: ");
                 System.out.println(yacht.sail.car.getCurrentPositionInDegrees());
                 System.out.print("apparentWindAtHead: ");
-                System.out.println(apparentWindAtHead.toString());
+//                System.out.println(apparentWindAtHead.toString());
                 System.out.print("current trim angle: ");
                 System.out.println(yacht.sail.getCurrentTrimAngle());
                 System.out.print("current twist angle: ");
@@ -84,7 +84,7 @@ public class generalTest {
                 System.out.print("sheet.getCurrentLengthOverMin: ");
                 System.out.println(yacht.sail.sheet.getCurrentLengthOverMin());
                 System.out.print("thrust force: ");
-                System.out.println(thrustForce);
+                System.out.println(yacht.getThrustForce());
                 System.out.print("yacht.velocity: ");
                 System.out.println(yacht.getVelocity());
 //                System.out.print("-------->: ");
@@ -103,14 +103,14 @@ public class generalTest {
         //When
         for (int i = 0; i < 600; i++) { //1 minute
 
-            Wind apparentWindAtFoot = yacht.windIndicatorAtFoot.measureWind(trueWind, yacht, yacht.sail.getFootHeight());
-            yacht.sail.sailController.countControlValueAtFoot(apparentWindAtFoot.getDirection(), yacht.sail);
+            yacht.windIndicatorAtFoot.measureWind(trueWind, yacht, yacht.sail.getFootHeight());
+            yacht.sail.sailController.countControlValueAtFoot(yacht.windIndicatorAtFoot.getApparentWind().getRelativeDirection(), yacht.sail);
             yacht.sail.carEngineController.setStateOfEngine(yacht.sail.sailController.getCurrentControlValueAtFoot(), yacht.sail.getCurrentStateOfSail());
             yacht.sail.carEngine.setCurrentVelocity(yacht.sail.carEngineController.getCurrentStateOfEngine());
             yacht.sail.car.countPositionInDegrees(yacht.sail.carEngine.getCurrentVelocity());
 
-            Wind apparentWindAtHead = yacht.windIndicatorAtHead.measureWind(trueWind, yacht, yacht.sail.getHeadHeight());
-            yacht.sail.sailController.countControlValueAtHead(apparentWindAtHead.getDirection(), yacht.sail);
+            yacht.windIndicatorAtHead.measureWind(trueWind, yacht, yacht.sail.getHeadHeight());
+            yacht.sail.sailController.countControlValueAtHead(yacht.windIndicatorAtHead.getApparentWind().getRelativeDirection(), yacht.sail);
             yacht.sail.sheetEngineController.setStateOfEngine(yacht.sail.sailController.getCurrentControlValueAtHead());
             yacht.sail.sheetEngine.setCurrentVelocity(yacht.sail.sheetEngineController.getCurrentStateOfEngine());
             yacht.sail.sheet.countLengthOverMin(yacht.sail.sheetEngine.getCurrentVelocity());
@@ -119,9 +119,9 @@ public class generalTest {
             yacht.rudder.rudderEngineController.setStateOfEngine(yacht.rudder.rudderController.getCurrentControlValue());
             yacht.rudder.rudderEngine.setCurrentAngleVelocity(yacht.rudder.rudderEngineController.getCurrentStateOfRudderEngine());
 
-            double thrustForce = yacht.sail.countThrustForce(yacht);
-            double sideForce = yacht.rudder.countSideForce(yacht.rudder.rudderEngine.getCurrentVelocity(), yacht);
-            yacht.process(thrustForce, sideForce, trueWind);
+            yacht.sail.countThrustForce(yacht);
+            yacht.rudder.countSideForce(yacht.rudder.rudderEngine.getCurrentVelocity(), yacht);
+            yacht.process(yacht.getThrustForce(), yacht.getSideForce(), trueWind);
 
             if (i % 10 == 9) {
                 System.out.print("yacht.getRequiredCourseAzimuth:                                    ");
@@ -135,7 +135,7 @@ public class generalTest {
                 System.out.print("yacht.rudder.getCurrentAngle:                                      ");
                 System.out.println(yacht.rudder.getCurrentAngle());
                 System.out.print("sideForce:                                                         ");
-                System.out.println(sideForce);
+                System.out.println(yacht.getSideForce());
                 System.out.print("yacht.getCurrentCourseAzimuth:                                     ");
                 System.out.println(yacht.getCurrentCourseAzimuth());
 //                System.out.print("yacht.velocity:                                         ");
@@ -154,14 +154,14 @@ public class generalTest {
 
         //When
         for (int i = 0; i < 60 * (1 / Simulation.samplingPeriod); i++) { //1 minute
-            Wind apparentWindAtFoot = yacht.windIndicatorAtFoot.measureWind(trueWind, yacht, yacht.sail.getFootHeight());
-            yacht.sail.sailController.countControlValueAtFoot(apparentWindAtFoot.getDirection(), yacht.sail);
+            yacht.windIndicatorAtFoot.measureWind(trueWind, yacht, yacht.sail.getFootHeight());
+            yacht.sail.sailController.countControlValueAtFoot(yacht.windIndicatorAtFoot.getApparentWind().getRelativeDirection(), yacht.sail);
             yacht.sail.carEngineController.setStateOfEngine(yacht.sail.sailController.getCurrentControlValueAtFoot(), yacht.sail.getCurrentStateOfSail());
             yacht.sail.carEngine.setCurrentVelocity(yacht.sail.carEngineController.getCurrentStateOfEngine());
             yacht.sail.car.countPositionInDegrees(yacht.sail.carEngine.getCurrentVelocity());
 
-            Wind apparentWindAtHead = yacht.windIndicatorAtHead.measureWind(trueWind, yacht, yacht.sail.getHeadHeight());
-            yacht.sail.sailController.countControlValueAtHead(apparentWindAtHead.getDirection(), yacht.sail);
+            yacht.windIndicatorAtHead.measureWind(trueWind, yacht, yacht.sail.getHeadHeight());
+            yacht.sail.sailController.countControlValueAtHead(yacht.windIndicatorAtHead.getApparentWind().getRelativeDirection(), yacht.sail);
             yacht.sail.sheetEngineController.setStateOfEngine(yacht.sail.sailController.getCurrentControlValueAtHead());
             yacht.sail.sheetEngine.setCurrentVelocity(yacht.sail.sheetEngineController.getCurrentStateOfEngine());
             yacht.sail.sheet.countLengthOverMin(yacht.sail.sheetEngine.getCurrentVelocity());
@@ -170,19 +170,19 @@ public class generalTest {
             yacht.rudder.rudderEngineController.setStateOfEngine(yacht.rudder.rudderController.getCurrentControlValue());
             yacht.rudder.rudderEngine.setCurrentAngleVelocity(yacht.rudder.rudderEngineController.getCurrentStateOfRudderEngine());
 
-            double thrustForce = yacht.sail.countThrustForce(yacht);
-            double sideForce = yacht.rudder.countSideForce(yacht.rudder.rudderEngine.getCurrentVelocity(), yacht);
-            yacht.process(thrustForce, sideForce, trueWind);
+            yacht.sail.countThrustForce(yacht);
+            yacht.rudder.countSideForce(yacht.rudder.rudderEngine.getCurrentVelocity(), yacht);
+            yacht.process(yacht.getThrustForce(), yacht.getSideForce(), trueWind);
 
             if (i % (30 / Simulation.samplingPeriod) == 0) {
                 trueWind.setSpeed(random.nextDouble() * 7 + 3);
-                trueWind.setDirection(random.nextInt(360));
-                yacht.setRequiredCourseAzimuth(random.nextInt(360), trueWind.getDirection());
-                yacht.setRequiredCourseAzimuth(yacht.getRequiredCourseAzimuth() + 5, trueWind.getDirection());
+                trueWind.setAzimuthDirection(random.nextInt(360));
+                yacht.setRequiredCourseAzimuth(random.nextInt(360), trueWind.getAzimuthDirection());
+                yacht.setRequiredCourseAzimuth(yacht.getRequiredCourseAzimuth() + 5, trueWind.getAzimuthDirection());
                 System.out.print("trueWind.getSpeed:                      ");
                 System.out.println(trueWind.getSpeed());
                 System.out.print("trueWind.getDirection:                  ");
-                System.out.println(trueWind.getDirection());
+                System.out.println(trueWind.getAzimuthDirection());
             }
 
             if (i % (1 / Simulation.samplingPeriod) == 9) {

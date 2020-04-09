@@ -49,8 +49,8 @@ public class Rudder {
             this.currentAngle = -getMaxAngle();
     }
 
-    public double countSideForce(double angleVelocity, Yacht yacht) {//angle velocity in m/s^2 // + W PRAWO, - W LEWO
+    public void countSideForce(double angleVelocity, Yacht yacht) {//angle velocity in m/s^2 // + W PRAWO, - W LEWO
         setCurrentAngle(getCurrentAngle() + angleVelocity * Simulation.samplingPeriod); // function borders angle between -maxAngle & maxAngle
-        return 0.5 * Simulation.waterDensity * getArea() * pow(yacht.getVelocity(), 2) * 0.025 * getCurrentAngle();
+        yacht.setSideForce(0.5 * Simulation.waterDensity * getArea() * pow(yacht.getVelocity(), 2) * 0.025 * getCurrentAngle());
     }
 }
