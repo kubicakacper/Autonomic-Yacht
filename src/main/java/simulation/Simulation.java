@@ -53,5 +53,5 @@ public class Simulation {
         yacht.sail.countThrustForce(yacht);
         yacht.rudder.countSideForce(yacht.rudder.rudderEngine.getCurrentVelocity(), yacht);
         yacht.process(yacht.getThrustForce(), yacht.getSideForce(), trueWind);
-    }
+}
 }

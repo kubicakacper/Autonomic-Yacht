@@ -81,6 +81,12 @@ public class Yacht {
     public void setRequiredCourseAzimuth(double requiredCourseAzimuth, double trueWindDirection) {
         requiredCourseAzimuth %= 360;
         this.requiredCourseAzimuth = requiredCourseAzimuth;
+
+        setFollowedCourseAzimuth(requiredCourseAzimuth, trueWindDirection);
+
+    }
+
+    public void setFollowedCourseAzimuth(double requiredCourseAzimuth, double trueWindDirection) {
         double absDifference = abs(requiredCourseAzimuth - trueWindDirection);
         double circleAbsDifference = absDifference;
         if (absDifference > 180)
@@ -105,9 +111,10 @@ public class Yacht {
                 if (courseAzimuth > 360)
                     courseAzimuth -= 360;
             }
-            setFollowedCourseAzimuth(courseAzimuth);
+            this.followedCourseAzimuth = courseAzimuth;
         }
     }
+
 
     public void setCourseAgainstWind(double apparentWindDirection) {
         this.courseAgainstWind = abs(apparentWindDirection);
@@ -132,6 +139,8 @@ public class Yacht {
             setCurrentCourseAzimuth(currentCourseAzimuth + 360);
         else if (currentCourseAzimuth >= 360)
             setCurrentCourseAzimuth(currentCourseAzimuth - 360);
+
+        setFollowedCourseAzimuth(getRequiredCourseAzimuth(), trueWind.getAzimuthDirection());
 
         windIndicatorAtFoot.measureWind(trueWind, this, sail.getFootHeight());
         windIndicatorAtHead.measureWind(trueWind, this, sail.getHeadHeight());

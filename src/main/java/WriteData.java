@@ -55,17 +55,11 @@ public class WriteData {
 
     private String[] convertDoubleToString(double[] doubleValues) {
         List<String> strings = new ArrayList<>();
-//        for (double doubleValue : doubleValues)
-//            strings.add(String.format("%.1f", doubleValue));
         Arrays.stream(doubleValues)
                 .mapToObj(value -> String.format("%.2f", value))
                 .forEach(strings::add);
 
         return strings.toArray(new String[0]);
-
-/*        return Arrays.stream(doubleValues)
-                .mapToObj(String::valueOf)
-                .toArray(String[]::new);*/
     }
 
     private String convertStringToCSV(String[] data) {
