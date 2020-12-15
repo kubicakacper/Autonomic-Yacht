@@ -1,8 +1,8 @@
 # masterThesis
 This is my master thesis called: "Design and simulation tests of a control system for a semi-autonomous cat sailing vessel".
 
-The project is being made completely in Java 8 in Intellij IDEA enviroment using Maven and Lombok.
-The project is developed using the Agile system and the TDD philosophy.
+The project was made completely in Java 8 in Intellij IDEA enviroment using Maven and Lombok.
+The project was developed using the Agile system and the TDD philosophy.
 The aim of the project is presented in thesis's topic.
 The following paraghraphs contain specification of the app such as classes description and the way it works. It is a part of the paper, so it is in Polish.
 
